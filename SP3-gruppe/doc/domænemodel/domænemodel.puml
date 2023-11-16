@@ -1,0 +1,25 @@
+@startuml
+!pragma layout smetana
+'https://plantuml.com/object-diagram
+
+object StartMenu
+object HovedMenu
+object Serier
+object Film
+object Kategori
+object MinListe
+map Bruger{
+}
+Bruger--* StartMenu:has - a
+StartMenu--* Bruger:has - a
+Bruger--* HovedMenu:has - a
+HovedMenu--*Film:has-a
+HovedMenu--*Serier:has-a
+Serier--*Kategori:has-a
+Film--*Kategori:has-a
+Bruger--*MinListe:hsa-a
+HovedMenu--*MinListe:hsa-a
+MinListe-|>Film:hsa-a
+MinListe-|>Serier:hsa-a
+
+@enduml

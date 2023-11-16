@@ -1,0 +1,105 @@
+@startuml
+!pragma layout smetana
+'https://plantuml.com/sequence-diagram
+
+Class Main{
++ static void main()
+
+}
+
+Class startMenu{
++ signUp()
++ logIn()
+@override String toString()
+
+}
+
+Class user{
+-String userName;
+-String passWord;
+
++createUserName()
++createPassWord()
+@override String toString()
+
+}
+
+Class mainMenu{
++searchMovie()
++searchSeries()
++searchCategories()
++chooseMenu()
+@override String toString()
+
+}
+
+Class myList{
++watchedMovies()
++savedMovies()
++watchedSeries()
++savedSeries()
+@override String toString()
+}
+
+interface Media{
+-int rating;
+-String name;
+-int releaseDate;
+
+}
+
+abstract class AMedia extends Media{
+-int rating;
+-String name;
+-int releaseDate;
+@override String toString()
+
+
+}
+
+Class Movies extends AMedia{
+-ArrayList<Movies> arrayListForMovies;
++void addMovie();
+
+ChooseMovie()
+@override String toString()
+
+}
+
+Class Series extends AMedia{
+-ArrayList<Series> arrayListForSeries;
++Void addSeries();
++ChooseSeries();
+@override String toString()
+
+}
+
+Class Category{
+-ArrayList<MoviesC> Action
+-ArrayList<MoviesC> Anime
+-ArrayList<MoviesC> KidsAndFamily
+-ArrayList<MoviesC> Documentaries
+-ArrayList<MoviesC> Drama
+-ArrayList<MoviesC> Fantasy
+-ArrayList<MoviesC> Horror
+-ArrayList<MoviesC> Crime
+
+}
+
+Main --* startMenu
+startMenu --* user
+user --* mainMenu
+user --* myList
+mainMenu --* myList
+mainMenu --* Movies
+mainMenu --* Series
+myList --|> Movies
+myList --|> Series
+Movies --* Category
+Series --* Category
+mainMenu --* Media
+
+
+
+
+@enduml
