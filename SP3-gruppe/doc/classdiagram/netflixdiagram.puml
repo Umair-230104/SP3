@@ -20,24 +20,31 @@ Class user{
 
 +createUserName()
 +createPassWord()
++getuserName()
++getpassWord()
 +@override String toString()
 
 }
 
 Class TextUI {
+-Scanner scanner;
 
 }
 
 Class FileIo{
--Scanner scanner;
+
+
 }
 
 Class mainMenu{
 -ArrayList movies;
 -ArrayList series;
 
++setUp()
 +searchMedia()
 +Search category()
++getMovies()
++getSeries()
 +@override String toString()
 
 }
@@ -62,12 +69,10 @@ abstract class AMedia extends Media{
 
 +@override playMedia()
 +@override stopMedia()
-
 +getName()
 +getReleaseYear()
 +getRating()
-+get()
-
++getCategory()
 +@override String toString()
 
 
@@ -104,8 +109,6 @@ Class Series extends AMedia{
 }
 
 
-
-
 Main --* startMenu
 startMenu --* user
 user --* mainMenu
@@ -118,7 +121,5 @@ myList --|> Movies
 myList --|> Series
 mainMenu --* Media
 TextUI --* mainMenu
-
-
 
 @enduml
