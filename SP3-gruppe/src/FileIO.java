@@ -19,7 +19,7 @@ public class FileIO {
                 movie.add(s);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            TextUI.displayMessage("File not found");
         }
         return movie;
     }
@@ -34,7 +34,7 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            System.out.println("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
     }
 
@@ -50,7 +50,7 @@ public class FileIO {
                 series.add(s);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            TextUI.displayMessage("File not found");
         }
         return series;
     }
@@ -65,7 +65,7 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            System.out.println("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
     }
 }

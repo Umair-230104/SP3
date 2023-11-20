@@ -71,8 +71,8 @@ public class StartMenu {
 
     public void displayMenuOptions(){
         TextUI.displayMessage("Welcome to the Streaming platform, you now have two options");
-        TextUI.displayMessage("1.Log in");
-        TextUI.displayMessage("2.Sign up");
+        TextUI.displayMessage("1. Log in");
+        TextUI.displayMessage("2. Sign up");
         TextUI.displayMessage("Enter your choice: ");
         int choice=Integer.parseInt(TextUI.getUserInput());
 

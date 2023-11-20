@@ -6,21 +6,24 @@ public class MainMenu {
     private ArrayList<Series> series = new ArrayList<>();
     private FileIO io = new FileIO();
     private TextUI ui = new TextUI();
+    private ArrayList<User> users; // skal sættes ind i en funktion for at læse data
 
 
     public void setUp() {
         // For filme
-        ArrayList<String> movies = io.readMovieData("src/movies.data");
+        ArrayList<String> movies = io.readMovieData("src/movies.data"); // Stigen skal ændres
         if (movies.size() > 0) {
-            if (TextUI.displayMessage("Vil du starte denne film? Y/N").equalsIgnoreCase("Y")) {
+            if (TextUI.getInput("Vil du starte denne film? Y/N").equalsIgnoreCase("Y")) {
                 for (String s : movies) {
 
                     String[] row = s.split(",");              // s splittes to strings ==>  "Egon", "200"
                     String name = row[0];                           // ==> "Egon"
+
                     // int balance = Integer.parseInt(row[1].trim());  // Konverterer string til int "200" ==> 200
 
                     int releaseYear = Integer.parseInt(row[1].trim());
-                    int rating = Integer.parseInt(row[3].trim()); // Hvad hvis der er flere genre?
+                    String genre = row[2];
+                    int rating = Integer.parseInt(row[3].trim());
 
                     registerMovie(name, releaseYear, genre, rating);
                     // placerer objektet i listen med kunder
@@ -34,7 +37,7 @@ public class MainMenu {
         // For serie
         ArrayList<String> series = io.readSeriesData("src/movies.data");
         if (series.size() > 0) {
-            if (ui.getUserInput().equalsIgnoreCase("Y")) {
+            if (TextUI.getInput("Will you play this movie? If so press 'Y'").equalsIgnoreCase("Y")) {
                 for (String s : series) {
 
                     String[] row = s.split(",");              // s splittes to strings ==>  "Egon", "200"
@@ -71,44 +74,43 @@ public class MainMenu {
         Series s = new Series(name, releaseYear, yearFrom, yearTo, genre, SeasonAndEpisodes, rating); //bruger de indlæste værdier til at konstruere et movie objekt (instansiering)
         series.add(s);
     }
-    public static void searchMedia(ArrayList<Movie>movies, ArrayList<Series> series){
-        Scanner scanner=new Scanner(System.in);
 
-        while(true){
+    public static void searchMedia(ArrayList<Movie> movies, ArrayList<Series> series) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
             System.out.println("Please enter the name of a movie or series, if you want to exit, please type 'exit': ");
-            String search=scanner.nextLine();
+            String search = scanner.nextLine();
 
             //end loop if user types exit
-            if(search.equalsIgnoreCase("exit")){
+            if (search.equalsIgnoreCase("exit")) {
                 break;
             }
 
             //find the media in lists
-            boolean foundMovies= searchList(movies,searchTerm);
-            boolean foundSeries=searchList(series,searchTerm);
+            boolean foundMovies = searchList(movies, search );
+            boolean foundSeries = searchList(series, search);
 
             //display results
-            if(foundMovies || foundSeries){
-                System.out.println("Media found");
+            if (foundMovies || foundSeries) {
+                TextUI.displayMessage("Media found");
             } else {
-                System.out.println("Not found");
+                TextUI.displayMessage("Not found");
             }
         }
         scanner.close();
     }
-    private static boolean searchList(ArrayList<? extends Media> list, String searchTerm){
-        for(Media media:list){
-            if(AMedia.getName().equalsIgnoreCase(searchTerm)){
-                System.out.println("Found: "+ media);
+
+    private static boolean searchList(ArrayList<? extends AMedia> list, String searchTerm) {
+        for (AMedia amedia : list) {
+            if (amedia.getName().equalsIgnoreCase(searchTerm)) {
+                TextUI.displayMessage("Found: " + amedia);
                 return true;
             }
         }
         return false;
     }
 
-
-    public void searchMedia() {
-    }
 
     public void searchGenre() {
     }

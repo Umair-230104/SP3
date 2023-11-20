@@ -26,6 +26,7 @@ public abstract class AMedia implements Media {
         return name;
     }
 
+
     public int getReleaseYear() {
         return releaseYear;
     }

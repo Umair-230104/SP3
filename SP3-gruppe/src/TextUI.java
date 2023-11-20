@@ -4,16 +4,19 @@ public class TextUI {
     private String userName;
     private String passWord;
 
-    public static  void displayMessage(String message){
-        System.out.println(message);
+    public static String getInput(String msg) {
+        displayMessage(msg);
+        String input = getUserInput();
+        return input;
     }
 
-    public static String getUserInput(){
-        Scanner scanner= new Scanner(System.in);
+    public static String getUserInput() {
+        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
-    public String getInput(String s) {
-        return getInput;
+    public static void displayMessage(String message) {
+        System.out.println(message);
     }
+
 }
