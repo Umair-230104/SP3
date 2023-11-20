@@ -1,26 +1,27 @@
+
 public class User {
-    private String userName;
-    private String passWord;
+    public String userName;
+    public String passWord;
 
-
-    public void createUserName() {
-
-    }
-
-    public void createPassWord() {
-
+    public User(String userName, String passWord) {
+        this.userName = userName;
+        this.passWord = passWord;
     }
 
     public String getUserName() {
         return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassWord() {
         return passWord;
     }
 
-    @Override
-    public String toString() {
-        return toString();
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
+
+
 }

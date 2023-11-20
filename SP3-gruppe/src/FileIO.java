@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class FileIO {
 
-    public ArrayList<String> ReadMovieData(String path) {
+    public ArrayList<String> readMovieData(String path) {
         ArrayList<String> movie = new ArrayList<>();
         File f = new File(path);
 
@@ -38,7 +38,7 @@ public class FileIO {
         }
     }
 
-    public ArrayList<String> ReadSeriesData(String path) {
+    public ArrayList<String> readSeriesData(String path) {
         ArrayList<String> series = new ArrayList<>();
         File file = new File(path);
 
