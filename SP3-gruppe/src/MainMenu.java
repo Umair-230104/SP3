@@ -34,6 +34,9 @@ public class MainMenu {
         //System.out.println(users);
 
         // SPØRG SIGNE
+        users = new ArrayList<>();// dette fik det til at virke
+        
+
         StartMenu startMenu = new StartMenu(users);
 
         // Display the menu options
