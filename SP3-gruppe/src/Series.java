@@ -1,25 +1,27 @@
+import java.util.ArrayList;
+
 public class Series extends AMedia {
 
-    private int yearFrom;
-    private int yearTo;
-    private String SeasonAndEpisodes;
+    //private int yearFrom;
+    //private int yearTo;
+    private String seasonAndEpisodes;
 
 
-    public Series(String name, int releaseYear, int yearFrom, int yearTo, String genre, String SeasonAndEpisodes, int rating) {
+    public Series(String name, String releaseYear, ArrayList<String> genre, String seasonAndEpisodes, double rating) {
         super(name, releaseYear, genre, rating);
-        this.yearFrom = yearFrom;
-        this.yearTo = yearTo;
+        //this.yearFrom = yearFrom;
+        //this.yearTo = yearTo;
     }
 
 
     @Override
-    public void playMedia() {
-        super.playMedia();
+    public String playMedia() {
+        return super.playMedia();
     }
 
     @Override
-    public void stopMedia() {
-        super.stopMedia();
+    public String stopMedia() {
+        return super.stopMedia();
     }
 
     @Override
@@ -28,31 +30,34 @@ public class Series extends AMedia {
     }
 
     @Override
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return super.getReleaseYear();
     }
 
     @Override
-    public String getGenre() {
+    public ArrayList<String> getGenre() {
         return super.getGenre();
     }
 
     @Override
-    public int getRating() {
+    public double getRating() {
         return super.getRating();
     }
 
-
+/*
     public int getYearFrom() {
         return yearFrom;
     }
+*/
 
+ /*
     public int getYearTo() {
         return yearTo;
     }
+*/
 
     public String getSeasonAndEpisodes() {
-        return SeasonAndEpisodes;
+        return seasonAndEpisodes;
     }
 
     @Override
@@ -60,7 +65,6 @@ public class Series extends AMedia {
         return super.toString();
 
     }
-
 
 }
 

@@ -7,7 +7,9 @@ public class StartMenu {
         this.users=users;
     }
 
-    // creating a new user
+
+
+    //creating a new user
     public void signUp(){
         TextUI.displayMessage("Sign Up");
         TextUI.displayMessage("Enter your username: ");
@@ -51,7 +53,7 @@ public class StartMenu {
     }
 
     private boolean isUsernameTaken(String username){
-        for(User user: users){
+        for( User user: users){
             if(user.getUserName().equals(username)){
                 return true;
             }
@@ -88,5 +90,6 @@ public class StartMenu {
             default:
                 TextUI.displayMessage("Invalid, please try again");
         }
-    }
+
+   }
 }

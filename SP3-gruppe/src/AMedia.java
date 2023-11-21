@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 public abstract class AMedia implements Media {
     private String name;
-    private int releaseYear;
-    private String genre;
-    private int rating;
+    private String releaseYear;
+    private ArrayList<String> genre;
+    private double rating;
 
-    public AMedia(String name, int releaseYear, String genre, int rating) {
+    public AMedia(String name, String releaseYear, ArrayList<String> genre, double rating) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.genre = genre;
@@ -13,29 +15,34 @@ public abstract class AMedia implements Media {
 
 
     @Override
-    public void playMedia() {
+    public String playMedia() {
 
+        return getName() + " is playing";
     }
 
     @Override
-    public void stopMedia() {
+    public String stopMedia() {
 
+        return getName() + " is stopped";
     }
 
+
+
+
+    // Hvorfor virker @override ikke her?
     public String getName() {
         return name;
     }
 
-
-    public int getReleaseYear() {
+    public String getReleaseYear() {
         return releaseYear;
     }
 
-    public String getGenre() {
+    public ArrayList<String> getGenre() {
         return genre;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

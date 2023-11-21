@@ -8,74 +8,119 @@ public class MainMenu {
     private TextUI ui = new TextUI();
     private ArrayList<User> users; // skal sættes ind i en funktion for at læse data
 
-
     public void setUp() {
-        // For filme
-        ArrayList<String> movies = io.readMovieData("src/movies.data"); // Stigen skal ændres
-        if (movies.size() > 0) {
-            if (TextUI.getInput("Vil du starte denne film? Y/N").equalsIgnoreCase("Y")) {
-                for (String s : movies) {
+        // For film
+        //ArrayList<String> movie = io.readMovieData("movies.data");
+        //System.out.println(movie.size());
+        //System.out.println(movie.get(0));
 
-                    String[] row = s.split(",");              // s splittes to strings ==>  "Egon", "200"
-                    String name = row[0];                           // ==> "Egon"
+        // test makeMoives
+        //System.out.println(this.movies.size());
+        //makeMovies(movie);
+        //System.out.println(movies);
 
-                    // int balance = Integer.parseInt(row[1].trim());  // Konverterer string til int "200" ==> 200
 
-                    int releaseYear = Integer.parseInt(row[1].trim());
-                    String genre = row[2];
-                    int rating = Integer.parseInt(row[3].trim());
+        // test makeSeries
+        ArrayList<String> serie = io.readSeriesData("series.data");
+        //System.out.println(this.series.size());
+        //makeSeries(serie);
+        //System.out.println(series);
 
-                    registerMovie(name, releaseYear, genre, rating);
-                    // placerer objektet i listen med kunder
+        //searchMedia(movies, series);
+
+        //ArrayList<String> user = io.readUserData("ListUser");
+
+        //StartMenu startMenu = new StartMenu(user);
+        //System.out.println(users);
+
+        // SPØRG SIGNE
+        StartMenu startMenu = new StartMenu(users);
+
+        // Display the menu options
+        startMenu.displayMenuOptions();
+        startMenu.signUp();
+        startMenu.logIn();
+
+    }
+
+    private void makeMovies(ArrayList<String> moviesList) { // lav det samme for series
+        if (moviesList.size() > 0) {
+
+            for (String s : moviesList) {
+
+                String[] row = s.split(";");
+                String name = row[0];
+
+                String releaseYear = row[1];
+
+                String genre = row[2];
+                String[] movieGenre = genre.split(", ");
+                ArrayList<String> aGenre = new ArrayList<>();
+                for (String s1 : movieGenre) {
+                    aGenre.add(s1);
                 }
-            } else {
-                //runPlayerSetupDialog(); dette er fra matador hvad kan vi ligge ind her?
+                String r = row[3].replace(',', '.');
+                double rating = Double.parseDouble(r.trim());
+
+                Movie mm = new Movie(name, releaseYear, aGenre, rating);
+                movies.add(mm);
             }
-        } else {
-            //runPlayerSetupDialog(); dette er fra matador hvad kan vi ligge ind her
         }
-        // For serie
-        ArrayList<String> series = io.readSeriesData("src/movies.data");
-        if (series.size() > 0) {
-            if (TextUI.getInput("Will you play this movie? If so press 'Y'").equalsIgnoreCase("Y")) {
-                for (String s : series) {
+    }
 
-                    String[] row = s.split(",");              // s splittes to strings ==>  "Egon", "200"
-                    String name = row[0];                           // ==> "Egon"
-                    // int balance = Integer.parseInt(row[1].trim());  // Konverterer string til int "200" ==> 200
+    // Fejl i denne
+    private void makeSeries(ArrayList<String> seriesList) { // lav det samme for series
+        if (seriesList.size() > 0) {
 
-                    int releaseYear = Integer.parseInt(row[1].trim());
-                    int yearFrom = Integer.parseInt(row[2].trim());
-                    int yearTo = Integer.parseInt(row[3].trim());
-                    String genre = row[4];
-                    String SeasonAndEpisodes = row[5];
-                    int rating = Integer.parseInt(row[6].trim());
+            for (String s : seriesList) {
 
-                    registerSeries(name, releaseYear, yearFrom, yearTo, genre, SeasonAndEpisodes, rating);
-                    // placerer objektet i listen med kunder
+                String[] row = s.split(";");
+                String name = row[0];
+
+                // int releaseYear = Integer.parseInt(row[1].trim());
+
+                String releaseYear = row[1];
+
+                // De her int skal ændres fordi på plads 2 er der to tal med "-" og det er ikke to tal på to pladser i arraylist
+                //int yearFrom = Integer.parseInt(row[2].trim());
+                //int yearTo = Integer.parseInt(row[3].trim());
+
+                String genre = row[2];
+                String[] movieGenre = genre.split(", ");
+                ArrayList<String> aGenre = new ArrayList<>();
+                for (String s1 : movieGenre) {
+                    aGenre.add(s1);
                 }
-            } else {
-                //runPlayerSetupDialog(); dette er fra matador hvad kan vi ligge ind her?
+
+
+                String r = row[3].replace(',', '.');
+                double rating = Double.parseDouble(r.trim());
+
+                String seasonAndEpisodes = row[4];
+
+                Series ss = new Series(name, releaseYear, aGenre, seasonAndEpisodes, rating);
+                series.add(ss);
             }
-        } else {
-            //runPlayerSetupDialog(); dette er fra matador hvad kan vi ligge ind her
         }
-
     }
 
-    // For filme
-    private void registerMovie(String name, int releaseYear, String genre, int rating) {
-        Movie m = new Movie(name, releaseYear, genre, rating); //bruger de indlæste værdier til at konstruere et movie objekt (instansiering)
-        movies.add(m);
+
+    private void makeUser(ArrayList<String> userList) { // lav det samme for series
+        if (userList.size() > 0) {
+
+            for (String s : userList) {
+
+                String[] row = s.split(";");
+                String userName = row[0];
+                String passWord = row[1];
+
+                User u = new User(userName, passWord);
+                users.add(u);
+            }
+        }
     }
 
-    // For serie
-    private void registerSeries(String name, int releaseYear, int yearFrom, int yearTo, String genre, String SeasonAndEpisodes, int rating) {
-        Series s = new Series(name, releaseYear, yearFrom, yearTo, genre, SeasonAndEpisodes, rating); //bruger de indlæste værdier til at konstruere et movie objekt (instansiering)
-        series.add(s);
-    }
-
-    public static void searchMedia(ArrayList<Movie> movies, ArrayList<Series> series) {
+    public static void searchMedia(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -88,8 +133,8 @@ public class MainMenu {
             }
 
             //find the media in lists
-            boolean foundMovies = searchList(movies, search );
-            boolean foundSeries = searchList(series, search);
+            boolean foundMovies = searchList(movie, search);
+            boolean foundSeries = searchList(serie, search);
 
             //display results
             if (foundMovies || foundSeries) {
@@ -123,8 +168,20 @@ public class MainMenu {
         return series;
     }
 
+
+    /*
+    textUI.displayMessage(" Thanks for watching! ");
+    endGame();
+}
+    private void endGame() {
+        FileIO.saveGameData(users);
+    }
+    */
+
+
     @Override
     public String toString() {
         return toString();
     }
+
 }

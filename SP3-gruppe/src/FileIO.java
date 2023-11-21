@@ -13,7 +13,7 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(f);
-            scan.nextLine();
+            //scan.nextLine();
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();
                 movie.add(s);
@@ -44,7 +44,7 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(file);
-            scan.nextLine();
+            //scan.nextLine();
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();
                 series.add(s);
@@ -57,16 +57,52 @@ public class FileIO {
 
     public void saveSeriesData(ArrayList<Series> series) {
         try {
-            FileWriter writer = new FileWriter("src/series.data");
+            FileWriter writer = new FileWriter("series.data");
             writer.write("Name, yearfrom, yearTo,Genre, seasonAndEpisodes, rating,}" + "" + " n\"");
             for (Series s : series) {
-                String textTosave = s.getName() + "," + s.getYearFrom() + "," + s.getYearTo() + "," + s.getGenre()  + "," +s.getSeasonAndEpisodes() + "," + s.getRating();
+                String textTosave = s.getName() + "," + s.getGenre() + "," + s.getSeasonAndEpisodes() + "," + s.getRating();
                 writer.write(textTosave + "\n");
             }
             writer.close();
         } catch (IOException e) {
             TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
+
+
+    }
+
+    public ArrayList<String> readUserData(String path) {
+        ArrayList<String> users = new ArrayList<>();
+        File file = new File(path);
+
+        try {
+            Scanner scan = new Scanner(file);
+            //scan.nextLine();
+            while (scan.hasNextLine()) {
+                String s = scan.nextLine();
+                users.add(s);
+            }
+        } catch (FileNotFoundException e) {
+            TextUI.displayMessage("File not found");
+        }
+        return users;
+    }
+
+
+    public void saveUserData(ArrayList<User> users) {
+        try {
+            FileWriter writer = new FileWriter("ListUser.data");
+            writer.write("Username, password}" + "" + " n\"");
+            for (User s : users) {
+                String textTosave = s.getUserName() + "," + s.getPassWord();
+                writer.write(textTosave + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+        }
+
     }
 }
+
 
