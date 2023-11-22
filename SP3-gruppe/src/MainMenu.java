@@ -8,9 +8,10 @@ public class MainMenu {
     private TextUI ui = new TextUI();
     private ArrayList<User> users; // skal sættes ind i en funktion for at læse data
 
+
     public void setUp() {
         // For film
-        //ArrayList<String> movie = io.readMovieData("movies.data");
+        ArrayList<String> movie = io.readMovieData("movies.data");
         //System.out.println(movie.size());
         //System.out.println(movie.get(0));
 
@@ -28,21 +29,26 @@ public class MainMenu {
 
         //searchMedia(movies, series);
 
-        //ArrayList<String> user = io.readUserData("ListUser");
+        ArrayList<String> user = io.readUserData("ListUser.data");
 
         //StartMenu startMenu = new StartMenu(user);
         //System.out.println(users);
 
-        // SPØRG SIGNE
+
         users = new ArrayList<>();// dette fik det til at virke
-        
 
         StartMenu startMenu = new StartMenu(users);
 
+
+
         // Display the menu options
+
         startMenu.displayMenuOptions();
-        startMenu.signUp();
-        startMenu.logIn();
+        //startMenu.signUp();
+        //startMenu.logIn();
+
+
+
 
     }
 
@@ -113,7 +119,7 @@ public class MainMenu {
 
             for (String s : userList) {
 
-                String[] row = s.split(";");
+                String[] row = s.split(",");
                 String userName = row[0];
                 String passWord = row[1];
 

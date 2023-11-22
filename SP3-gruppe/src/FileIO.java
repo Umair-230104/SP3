@@ -26,7 +26,7 @@ public class FileIO {
 
     public void saveMovieData(ArrayList<Movie> movies) {
         try {
-            FileWriter writer = new FileWriter("src/movies.data");
+            FileWriter writer = new FileWriter("movies.data");
             writer.write("Name, year, genre, rating " + " \n");
             for (Movie m : movies) {
                 String textTosave = m.getName() + "," + m.getReleaseYear() + "," + m.getGenre() + "," + m.getRating();
@@ -58,7 +58,7 @@ public class FileIO {
     public void saveSeriesData(ArrayList<Series> series) {
         try {
             FileWriter writer = new FileWriter("series.data");
-            writer.write("Name, yearfrom, yearTo,Genre, seasonAndEpisodes, rating,}" + "" + " n\"");
+            writer.write("Name, yearfrom, yearTo,Genre, seasonAndEpisodes, rating " + " \n");
             for (Series s : series) {
                 String textTosave = s.getName() + "," + s.getGenre() + "," + s.getSeasonAndEpisodes() + "," + s.getRating();
                 writer.write(textTosave + "\n");
@@ -92,16 +92,15 @@ public class FileIO {
     public void saveUserData(ArrayList<User> users) {
         try {
             FileWriter writer = new FileWriter("ListUser.data");
-            writer.write("Username, password}" + "" + " n\"");
-            for (User s : users) {
-                String textTosave = s.getUserName() + "," + s.getPassWord();
+            writer.write("Username, password " + " \n");
+            for (User u : users) {
+                String textTosave = u.getUserName() + "," + u.getPassWord();
                 writer.write(textTosave + "\n");
             }
             writer.close();
         } catch (IOException e) {
             TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
-
     }
 }
 
