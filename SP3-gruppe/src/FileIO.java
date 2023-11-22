@@ -102,6 +102,8 @@ public class FileIO {
             TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
     }
+
+
 }
 
 

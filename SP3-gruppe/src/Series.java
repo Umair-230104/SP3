@@ -9,12 +9,12 @@ public class Series extends AMedia {
     private ArrayList<String> savedMediaList = new ArrayList<>();
 
 
-
     public Series(String name, String releaseYear, ArrayList<String> genre, String seasonAndEpisodes, double rating) {
         super(name, releaseYear, genre, rating);
         //this.yearFrom = yearFrom;
         //this.yearTo = yearTo;
     }
+
 
     public void chooseMedia() {
 
@@ -71,6 +71,8 @@ public class Series extends AMedia {
             TextUI.displayMessage(mediaName + " is not founded in watch to later");
         }
     }
+
+
 
     @Override
     public String playMedia() {

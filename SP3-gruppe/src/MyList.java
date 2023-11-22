@@ -35,7 +35,7 @@ public class MyList {
         }
     }
 
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         MyList myList = new MyList();
 
         // Adding media to watched and saved lists
@@ -48,6 +48,6 @@ public class MyList {
         // Displaying lists
         myList.displayWatchedMedia();
         myList.displaySavedMedia();
-    }
+    } */
 }
 

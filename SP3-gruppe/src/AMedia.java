@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class AMedia implements Media {
     private String name;
     private String releaseYear;
     private ArrayList<String> genre;
     private double rating;
+
 
     public AMedia(String name, String releaseYear, ArrayList<String> genre, double rating) {
         this.name = name;
@@ -14,10 +16,13 @@ public abstract class AMedia implements Media {
     }
 
 
+
+
+
     @Override
     public String playMedia() {
 
-        return getName() + " is playing";
+        return " Media name: " + getName() + " Realease year: " + getReleaseYear()  + "  is playing";
     }
 
     @Override
@@ -25,7 +30,6 @@ public abstract class AMedia implements Media {
 
         return getName() + " is stopped";
     }
-
 
 
 
