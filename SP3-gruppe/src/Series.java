@@ -121,9 +121,13 @@ public class Series extends AMedia {
 
     @Override
     public String toString() {
-        return super.toString();
-
+        return
+                "Name: " + getName() +
+                "\n Release Year: " + getReleaseYear() +
+                "\n Genre: " + getGenre() +
+                "\n Seasons and episodes: " + getSeasonAndEpisodes() +
+                "\n Rating: " + getRating() +
+                "\n" ;
     }
-
 }
 

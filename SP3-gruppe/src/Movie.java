@@ -98,6 +98,12 @@ public class Movie extends AMedia {
 
     @Override
     public String toString() {
-        return " Name: " + getName() + "\n" + " Release Year: " + getReleaseYear() + "\n" + " Genre: " + getGenre() + "\n" + " Rating: " + getRating();
+        return
+                "Name: " + getName() +
+                "\n Release Year: " + getReleaseYear() +
+                "\n Genre: " + getGenre() +
+                "\n Rating: " + getRating() +
+                "\n" ;
     }
 }
+

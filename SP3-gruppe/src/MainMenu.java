@@ -14,43 +14,34 @@ public class MainMenu {
     public void setUp() {
 
         // For film
-       //ArrayList<String> movie = io.readMovieData("movies.data");
-
+       ArrayList<String> movie = io.readMovieData("movies.data");
         //System.out.println(movie.size());
         //System.out.println(movie.get(0));
-
         // test makeMoives
-       // System.out.println(this.movies.size());
-       // makeMovies(movie);
-       // System.out.println(movies);
-
+        System.out.println(this.movies.size());
+        makeMovies(movie);
+        System.out.println(movies);
 
         // test makeSeries
         ArrayList<String> serie = io.readSeriesData("series.data");
-        //System.out.println(this.series.size());
-        //makeSeries(serie);
-        //System.out.println(series);
-
+        System.out.println(this.series.size());
+        makeSeries(serie);
+        System.out.println(series);
         //searchMedia(movies, series);
 
         ArrayList<String> user = io.readUserData("ListUser.data");
-
         //StartMenu startMenu = new StartMenu(user);
         //System.out.println(users);
-
-
         users = new ArrayList<>();// dette fik det til at virke
-
        // StartMenu startMenu = new StartMenu(users);
-
-
         // Display the menu options
-        displayMenuOptions();
+        //displayMenuOptions();
         //startMenu.signUp();
         //startMenu.logIn();
 
 
     }
+
 
     public void saveUserTofile() {
         io.saveUserData(users);
@@ -164,6 +155,17 @@ public class MainMenu {
         TextUI.displayMessage(s);
     }
 
+    private void displaySeries() {
+        String s ="\nSeries:\n";
+
+        for (Series s1 : series) {
+            //  s += p.toString();
+            s = s.concat(s1.toString()+"\n");
+        }
+
+        TextUI.displayMessage(s);
+    }
+
     private void makeMovies(ArrayList<String> moviesList) { // lav det samme for series
         if (moviesList.size() > 0) {
             for (String s : moviesList) {
@@ -184,21 +186,11 @@ public class MainMenu {
 
                 Movie mm = new Movie(name, releaseYear, aGenre, rating);
                 movies.add(mm);
-
-                //registerMovies(name, releaseYear, aGenre, rating);
-
             }
         }
     }
 
 
-    /*
-    private void registerMovies(String name, String releaseYear, ArrayList<String> genre, double rating) {
-        Movie mm = new Movie(name, releaseYear, casgenre, rating);
-        movies.add(mm);
-    }
-
-     */
 
     private void makeSeries(ArrayList<String> seriesList) {
         if (seriesList.size() > 0) {
