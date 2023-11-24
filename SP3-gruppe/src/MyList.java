@@ -3,16 +3,17 @@ import java.util.List;
 
 public class MyList {
 
-    private List<String> watchedList;
+    private List<String> watchedMediaList;
     private List<String> savedList;
 
     public MyList() {
-        watchedList = new ArrayList<>();
+        watchedMediaList = new ArrayList<>();
         savedList = new ArrayList<>();
     }
 
+
     public void watchedMedia(String title) {
-        watchedList.add(title);
+        watchedMediaList.add(title);
         TextUI.displayMessage("Added to Watched List: " + title);
     }
 
@@ -23,7 +24,7 @@ public class MyList {
 
     public void displayWatchedMedia() {
         TextUI.displayMessage("Watched List:");
-        for (String title : watchedList) {
+        for (String title : watchedMediaList) {
             TextUI.displayMessage("- " + title);
         }
     }
@@ -35,7 +36,7 @@ public class MyList {
         }
     }
 
-    public List<String> watchedMoviesAndSeries(String title)  {
+    public List<String> watchedMoviesAndSeries(String title) {
         // Der hvor vi kalder denne metode, skal den sætte en enkelt titel ind ad gangen.
         // Derefter gemmes den titel i en liste som denne metode returnere.
         ArrayList<String> allMediaWatched = new ArrayList<>();
@@ -46,7 +47,7 @@ public class MyList {
         return allMediaWatched;
     }
 
-    public List<String> savedMoviesAndSeries(String title)  {
+    public List<String> savedMoviesAndSeries(String title) {
         // Der hvor vi kalder denne metode, skal den sætte en enkelt titel ind ad gangen.
         // Derefter gemmes den titel i en liste til at se senere.
         ArrayList<String> allSavedMedia = new ArrayList<>();

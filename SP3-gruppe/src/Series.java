@@ -6,10 +6,11 @@ public class Series extends AMedia {
     //private int yearFrom;
     //private int yearTo;
 
+
+
     private ArrayList<String> seasonAndEpisodes;
     private ArrayList<String> savedMediaList = new ArrayList<>();
-    Scanner scanner= new Scanner(System.in);
-
+    Scanner scanner = new Scanner(System.in);
 
 
     public Series(String name, String releaseYear, ArrayList<String> genre, double rating, ArrayList<String> seasonAndEpisodes) {
@@ -17,6 +18,7 @@ public class Series extends AMedia {
         //this.yearFrom = yearFrom;
         this.seasonAndEpisodes = seasonAndEpisodes;
         //this.yearTo = yearTo;
+
     }
 
 
@@ -49,6 +51,7 @@ public class Series extends AMedia {
                 TextUI.displayMessage("Invalid choice, try again");
         }
     }
+
     private void ExitMediaWatchLater() {
         //Scanner scanner = new Scanner((System.in));
         TextUI.displayMessage("Exit media");
@@ -77,12 +80,9 @@ public class Series extends AMedia {
     }
 
 
-
-
     @Override
     public String playMedia() {
-        return super.playMedia();
-    }
+        return super.playMedia();}
 
     @Override
     public String stopMedia() {
@@ -115,11 +115,11 @@ public class Series extends AMedia {
     }
 */
 
- /*
-    public int getYearTo() {
-        return yearTo;
-    }
-*/
+    /*
+       public int getYearTo() {
+           return yearTo;
+       }
+   */
     public ArrayList<String> getSeasonAndEpisodes() {
         return seasonAndEpisodes;
     }
@@ -128,11 +128,11 @@ public class Series extends AMedia {
     public String toString() {
         return
                 "Name: " + getName() +
-                "\n Release Year: " + getReleaseYear() +
-                "\n Genre: " + getGenre() +
-                "\n Seasons and episodes: " + getSeasonAndEpisodes() +
-                "\n Rating: " + getRating() +
-                "\n" ;
+                        "\n Release Year: " + getReleaseYear() +
+                        "\n Genre: " + getGenre() +
+                        "\n Seasons and episodes: " + getSeasonAndEpisodes() +
+                        "\n Rating: " + getRating() +
+                        "\n";
     }
 
 }

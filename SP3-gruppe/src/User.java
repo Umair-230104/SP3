@@ -1,11 +1,13 @@
 
 public class User {
-    public String userName;
-    public String passWord;
+    private MyList ml;
+    private String userName;
+    private String passWord;
 
     public User(String userName, String passWord) {
         this.userName = userName;
         this.passWord = passWord;
+        this.ml = new MyList();
     }
 
     public String getUserName() {

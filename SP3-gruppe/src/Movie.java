@@ -6,78 +6,18 @@ public class Movie extends AMedia {
     private ArrayList<String> savedMediaList = new ArrayList<>();
 
 
-Scanner scanner= new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
 
     public Movie(String name, String releaseYear, ArrayList<String> genre, double rating) {
         super(name, releaseYear, genre, rating);
     }
 
-
-
-    public void chooseMedia() {
-        //Scanner scanner = new Scanner(System.in);
-        TextUI.displayMessage("Choose one option");
-        TextUI.displayMessage("1. Play media ");
-        TextUI.displayMessage("2. Save media ");
-        TextUI.displayMessage("3. Delete from saved ");
-        TextUI.displayMessage("4. Exit ");
-        TextUI.getUserInput();
-
-        int choice = scanner.nextInt();
-
-        switch (choice) {
-            case 1:
-                String s = playMedia();
-                TextUI.displayMessage(s);
-                break;
-            case 2:
-                saveMediaWatchLater();
-                break;
-            case 3:
-                deleteMediaWatchToLater();
-                break;
-            case 4:
-                ExitMediaWatchLater();
-                break;
-            default:
-                TextUI.displayMessage("Invalid choice, try again");
-        }
-    }
-    private void ExitMediaWatchLater() {
-        //Scanner scanner = new Scanner((System.in));
-        TextUI.displayMessage("Exit media");
-        String mediaName = scanner.next();
-    }
-
-    private void saveMediaWatchLater() {
-        //Scanner scanner = new Scanner(System.in);
-        TextUI.displayMessage("Write the media name you want to save");
-        String mediaName = scanner.next();
-        savedMediaList.add(mediaName);
-        TextUI.displayMessage(mediaName + " is saved in watch to later");
-    }
-
-    private void deleteMediaWatchToLater() {
-       // Scanner scanner1 = new Scanner(System.in);
-        TextUI.displayMessage("Write the media name, you want to delete");
-        String mediaName = scanner.next();
-
-        if (savedMediaList.contains(mediaName)) {
-            savedMediaList.remove(mediaName);
-            TextUI.displayMessage(mediaName + " is deleted from watch to later");
-        } else {
-            TextUI.displayMessage(mediaName + " is not founded in watch to later");
-        }
-    }
+//getUser
 
 
 
-    @Override
-    public String playMedia() {
-        return super.playMedia();
 
-    }
 
     @Override
     public String stopMedia() {
@@ -108,10 +48,10 @@ Scanner scanner= new Scanner(System.in);
     public String toString() {
         return
                 "Name: " + getName() +
-                "\n Release Year: " + getReleaseYear() +
-                "\n Genre: " + getGenre() +
-                "\n Rating: " + getRating() +
-                "\n" ;
+                        "\n Release Year: " + getReleaseYear() +
+                        "\n Genre: " + getGenre() +
+                        "\n Rating: " + getRating() +
+                        "\n";
     }
 
 }

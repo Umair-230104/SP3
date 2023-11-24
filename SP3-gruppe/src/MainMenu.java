@@ -12,11 +12,17 @@ public class MainMenu {
     private TextUI ui = new TextUI();
     private ArrayList<User> users;
 
+    User currentUser;
 
+    Scanner scanner = new Scanner(System.in);
+    private ArrayList<String> savedMediaList = new ArrayList<>();
     public void setUp() {
-        // For film
+        // test user
+        ArrayList<String> user = io.readUserData("ListUser.data");
+        users = new ArrayList<>();// dette fik det til at virke
+        displayMenuOptions();
 
-        // test moives
+        // test movies
         ArrayList<String> movie = io.readMovieData("movies.data");
         makeMovies(movie);
 
@@ -25,25 +31,90 @@ public class MainMenu {
         ArrayList<String> serie = io.readSeriesData("series.data");
         makeSeries(serie);
 
+        // test searchMedia
+        searchMedia(movies, series);
 
-        //searchMedia(movies, series);
-
-        // test user
-        ArrayList<String> user = io.readUserData("ListUser.data");
-        users = new ArrayList<>();// dette fik det til at virke
-
-        //displayMenuOptions();
 
         // test genre
         ArrayList<String> genre = io.readGenreData("GenreList.data");
         makeGenre(genre);
-        // System.out.println(genres);
-        //displayGenres();
+        System.out.println(genres);
+        displayGenres();
         findGenre();
 
 
-        //searchGenre(genres);
+        searchGenre(genres);
     }
+
+
+
+    public void chooseMedia() {
+        //Scanner scanner = new Scanner(System.in);
+        TextUI.displayMessage("Choose one option");
+        TextUI.displayMessage("1. Play media ");
+        TextUI.displayMessage("2. Save media ");
+        TextUI.displayMessage("3. Delete from saved ");
+        TextUI.displayMessage("4. Exit ");
+        TextUI.getUserInput();
+
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                //String s = playMedia();
+                //TextUI.displayMessage(s);
+                break;
+            case 2:
+                saveMediaWatchLater();
+                break;
+            case 3:
+                deleteMediaWatchToLater();
+                break;
+            case 4:
+                ExitMediaWatchLater();
+                break;
+            default:
+                TextUI.displayMessage("Invalid choice, try again");
+        }
+    }
+
+    /*
+    public String playMedia() {
+
+        return " Media name: " + getName() + " Release year: " + getReleaseYear()  + "  is playing";
+    }
+
+     */
+
+    private void ExitMediaWatchLater() {
+        //Scanner scanner = new Scanner((System.in));
+        TextUI.displayMessage("Exit media");
+        String mediaName = scanner.next();
+    }
+
+    private void saveMediaWatchLater() {
+        //Scanner scanner = new Scanner(System.in);
+        TextUI.displayMessage("Write the media name you want to save");
+        String mediaName = scanner.next();
+        savedMediaList.add(mediaName);
+        TextUI.displayMessage(mediaName + " is saved in watch to later");
+    }
+
+    private void deleteMediaWatchToLater() {
+        // Scanner scanner1 = new Scanner(System.in);
+        TextUI.displayMessage("Write the media name, you want to delete");
+        String mediaName = scanner.next();
+
+        if (savedMediaList.contains(mediaName)) {
+            savedMediaList.remove(mediaName);
+            TextUI.displayMessage(mediaName + " is deleted from watch to later");
+        } else {
+            TextUI.displayMessage(mediaName + " is not founded in watch to later");
+        }
+    }
+
+
+
 
 
     // User login og sign up
@@ -77,10 +148,10 @@ public class MainMenu {
         String password = TextUI.getUserInput();
 
         // create a new user and add it to the list
-        User newUser = new User(username, password);
+      currentUser = new User(username, password);
 
         // newUser blev aldrig gemt i "users" arraylist
-        users.add(newUser);
+        users.add(currentUser);
 
         TextUI.displayMessage("Sign up completed, you can now log in.");
         logIn();
@@ -97,10 +168,10 @@ public class MainMenu {
         String password = TextUI.getUserInput();
 
         //find user
-        User user = findUser(username, password);
+        currentUser = findUser(username, password);
 
         // check if user exist and password is correct
-        if (user != null && user.getPassWord().equals(password) && user.getUserName().equals(username)) {
+        if (currentUser != null && currentUser.getPassWord().equals(password) && currentUser.getUserName().equals(username)) {
             TextUI.displayMessage("Welcome " + username + "!");
         } else {
             TextUI.displayMessage("Invalid, please try again!");
@@ -265,31 +336,40 @@ public class MainMenu {
             if (search.equalsIgnoreCase("exit")) {
                 break;
             }
-
             //find the media in lists
-            boolean foundMovies = searchList(movie, search);
-            boolean foundSeries = searchList(serie, search);
+            AMedia foundMovies = searchList(movie, search);
+            AMedia foundSeries = searchList(serie, search);
 
             //display results
-            if (foundMovies || foundSeries) {
-                TextUI.displayMessage("Media found");
+            if (foundMovies != null ) {
+                TextUI.displayMessage(foundMovies.getName() + " is now playing ");
+
             } else {
                 TextUI.displayMessage("Not found");
             }
 
 
+            if (foundSeries != null ) {
+                TextUI.displayMessage(foundSeries.getName() + " is now playing ");
+
+            } else {
+                TextUI.displayMessage("Not found");
+            }
+
         }
+
         scanner.close();
     }
 
-    private static boolean searchList(ArrayList<? extends AMedia> list, String searchTerm) {
+    private static AMedia searchList(ArrayList<? extends AMedia> list, String searchTerm) {
         for (AMedia amedia : list) {
             if (amedia.getName().equalsIgnoreCase(searchTerm)) {
                 TextUI.displayMessage("Found: " + amedia);
-                return true;
+
+                return amedia;
             }
         }
-        return false;
+        return null;
     }
 
 
