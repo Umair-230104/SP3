@@ -11,6 +11,8 @@ public class FileIO {
         ArrayList<String> movie = new ArrayList<>();
         File f = new File(path);
 
+
+
         try {
             Scanner scan = new Scanner(f);
             //scan.nextLine();
@@ -103,6 +105,41 @@ public class FileIO {
         }
     }
 
+
+
+
+
+
+// GENRE
+public ArrayList<String> readGenreData(String path) {
+    ArrayList<String> genres = new ArrayList<>();
+    File f = new File(path);
+        try {
+            Scanner scan = new Scanner(f);
+            //scan.nextLine();
+            while (scan.hasNextLine()) {
+                String s = scan.nextLine();
+                genres.add(s);
+            }
+        } catch (FileNotFoundException e) {
+            TextUI.displayMessage("File not found");
+        }
+        return genres;
+    }
+
+    public void saveGenre(ArrayList<GenreList> genres) {
+        try {
+            FileWriter writer = new FileWriter("GenreList.data");
+            writer.write("Genre: " + " \n");
+            for (GenreList g : genres) {
+                String textTosave = g.getGenreAll();
+                writer.write(textTosave + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+        }
+    }
 
 }
 

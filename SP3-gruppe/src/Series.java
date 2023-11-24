@@ -5,21 +5,23 @@ public class Series extends AMedia {
 
     //private int yearFrom;
     //private int yearTo;
-    private String seasonAndEpisodes;
+
+    private ArrayList<String> seasonAndEpisodes;
     private ArrayList<String> savedMediaList = new ArrayList<>();
+    Scanner scanner= new Scanner(System.in);
 
 
-    public Series(String name, String releaseYear, ArrayList<String> genre, String seasonAndEpisodes, double rating) {
+
+    public Series(String name, String releaseYear, ArrayList<String> genre, double rating, ArrayList<String> seasonAndEpisodes) {
         super(name, releaseYear, genre, rating);
         //this.yearFrom = yearFrom;
+        this.seasonAndEpisodes = seasonAndEpisodes;
         //this.yearTo = yearTo;
     }
 
 
     public void chooseMedia() {
-
-
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Play media ");
         TextUI.displayMessage("2. Save media ");
@@ -34,25 +36,27 @@ public class Series extends AMedia {
                 String s = playMedia();
                 TextUI.displayMessage(s);
                 break;
-
             case 2:
                 saveMediaWatchLater();
                 break;
-
             case 3:
                 deleteMediaWatchToLater();
                 break;
             case 4:
-                TextUI.getUserInput();
+                ExitMediaWatchLater();
                 break;
-
             default:
                 TextUI.displayMessage("Invalid choice, try again");
         }
     }
+    private void ExitMediaWatchLater() {
+        //Scanner scanner = new Scanner((System.in));
+        TextUI.displayMessage("Exit media");
+        String mediaName = scanner.next();
+    }
 
     private void saveMediaWatchLater() {
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         TextUI.displayMessage("Write the media name you want to save");
         String mediaName = scanner.next();
         savedMediaList.add(mediaName);
@@ -60,9 +64,9 @@ public class Series extends AMedia {
     }
 
     private void deleteMediaWatchToLater() {
-        Scanner scanner1 = new Scanner(System.in);
+        // Scanner scanner1 = new Scanner(System.in);
         TextUI.displayMessage("Write the media name, you want to delete");
-        String mediaName = scanner1.next();
+        String mediaName = scanner.next();
 
         if (savedMediaList.contains(mediaName)) {
             savedMediaList.remove(mediaName);
@@ -71,6 +75,7 @@ public class Series extends AMedia {
             TextUI.displayMessage(mediaName + " is not founded in watch to later");
         }
     }
+
 
 
 
@@ -115,7 +120,7 @@ public class Series extends AMedia {
         return yearTo;
     }
 */
-    public String getSeasonAndEpisodes() {
+    public ArrayList<String> getSeasonAndEpisodes() {
         return seasonAndEpisodes;
     }
 
@@ -129,5 +134,6 @@ public class Series extends AMedia {
                 "\n Rating: " + getRating() +
                 "\n" ;
     }
+
 }
 

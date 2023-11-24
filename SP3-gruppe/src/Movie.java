@@ -6,6 +6,8 @@ public class Movie extends AMedia {
     private ArrayList<String> savedMediaList = new ArrayList<>();
 
 
+Scanner scanner= new Scanner(System.in);
+
 
     public Movie(String name, String releaseYear, ArrayList<String> genre, double rating) {
         super(name, releaseYear, genre, rating);
@@ -14,7 +16,7 @@ public class Movie extends AMedia {
 
 
     public void chooseMedia() {
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Play media ");
         TextUI.displayMessage("2. Save media ");
@@ -36,15 +38,20 @@ public class Movie extends AMedia {
                 deleteMediaWatchToLater();
                 break;
             case 4:
-                TextUI.getUserInput();
+                ExitMediaWatchLater();
                 break;
             default:
                 TextUI.displayMessage("Invalid choice, try again");
         }
     }
+    private void ExitMediaWatchLater() {
+        //Scanner scanner = new Scanner((System.in));
+        TextUI.displayMessage("Exit media");
+        String mediaName = scanner.next();
+    }
 
     private void saveMediaWatchLater() {
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         TextUI.displayMessage("Write the media name you want to save");
         String mediaName = scanner.next();
         savedMediaList.add(mediaName);
@@ -52,9 +59,9 @@ public class Movie extends AMedia {
     }
 
     private void deleteMediaWatchToLater() {
-        Scanner scanner1 = new Scanner(System.in);
+       // Scanner scanner1 = new Scanner(System.in);
         TextUI.displayMessage("Write the media name, you want to delete");
-        String mediaName = scanner1.next();
+        String mediaName = scanner.next();
 
         if (savedMediaList.contains(mediaName)) {
             savedMediaList.remove(mediaName);
@@ -69,6 +76,7 @@ public class Movie extends AMedia {
     @Override
     public String playMedia() {
         return super.playMedia();
+
     }
 
     @Override
@@ -105,5 +113,6 @@ public class Movie extends AMedia {
                 "\n Rating: " + getRating() +
                 "\n" ;
     }
+
 }
 

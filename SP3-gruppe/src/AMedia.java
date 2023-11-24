@@ -22,7 +22,7 @@ public abstract class AMedia implements Media {
     @Override
     public String playMedia() {
 
-        return " Media name: " + getName() + " Realease year: " + getReleaseYear()  + "  is playing";
+        return " Media name: " + getName() + " Release year: " + getReleaseYear()  + "  is playing";
     }
 
     @Override

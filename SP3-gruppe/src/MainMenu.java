@@ -4,57 +4,62 @@ import java.util.Scanner;
 public class MainMenu {
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Series> series = new ArrayList<>();
+
+    // Genre
+    private ArrayList<GenreList> genres = new ArrayList<>();
+
     private FileIO io = new FileIO();
     private TextUI ui = new TextUI();
     private ArrayList<User> users;
-    private ArrayList<Movie> movieGenre = new ArrayList<>();
-    private ArrayList<Series> seriesGenre = new ArrayList<>();
 
 
     public void setUp() {
-
         // For film
-       ArrayList<String> movie = io.readMovieData("movies.data");
-        //System.out.println(movie.size());
-        //System.out.println(movie.get(0));
-        // test makeMoives
-        System.out.println(this.movies.size());
-        makeMovies(movie);
-        System.out.println(movies);
 
-        // test makeSeries
+        // test moives
+        ArrayList<String> movie = io.readMovieData("movies.data");
+        makeMovies(movie);
+
+
+        // test series
         ArrayList<String> serie = io.readSeriesData("series.data");
-        System.out.println(this.series.size());
         makeSeries(serie);
-        System.out.println(series);
+
+
         //searchMedia(movies, series);
 
+        // test user
         ArrayList<String> user = io.readUserData("ListUser.data");
-        //StartMenu startMenu = new StartMenu(user);
-        //System.out.println(users);
         users = new ArrayList<>();// dette fik det til at virke
-       // StartMenu startMenu = new StartMenu(users);
-        // Display the menu options
+
         //displayMenuOptions();
-        //startMenu.signUp();
-        //startMenu.logIn();
+
+        // test genre
+        ArrayList<String> genre = io.readGenreData("GenreList.data");
+        makeGenre(genre);
+        // System.out.println(genres);
+        //displayGenres();
+        findGenre();
 
 
+        //searchGenre(genres);
     }
 
 
+    // User login og sign up
     public void saveUserTofile() {
         io.saveUserData(users);
         TextUI.displayMessage("User is saved in file");
     }
 
-    public void addUser (User u){
+    public void addUser(User u) {
         users.add(u);
     }
 
-    public void loadUser (){
+    public void loadUser() {
         ArrayList<String> usersData = io.readUserData("ListUser.data");
     }
+
 
     //creating a new user
     public void signUp() {
@@ -80,6 +85,7 @@ public class MainMenu {
         TextUI.displayMessage("Sign up completed, you can now log in.");
         logIn();
     }
+
 
     //login for existing users
     public void logIn() {
@@ -111,7 +117,7 @@ public class MainMenu {
         return false;
     }
 
-    // Skal vi have en til for at finde kode?
+
     private User findUser(String username, String password) {
         for (User user : users) {
             if (user.getUserName().equals(username) && user.getPassWord().equals(password)) {
@@ -119,6 +125,21 @@ public class MainMenu {
             }
         }
         return null;
+    }
+
+    private void makeUser(ArrayList<String> userList) {
+        if (userList.size() > 0) {
+
+            for (String s : userList) {
+
+                String[] row = s.split(",");
+                String userName = row[0];
+                String passWord = row[1];
+
+                User u = new User(userName, passWord);
+                users.add(u);
+            }
+        }
     }
 
     public void displayMenuOptions() {
@@ -143,30 +164,19 @@ public class MainMenu {
     }
 
 
-
+    // Filme
     private void displayMovies() {
-        String s ="\nMovies:\n";
+        String s = "\nMovies:\n";
 
         for (Movie m : movies) {
             //  s += p.toString();
-            s = s.concat(m.toString()+"\n");
+            s = s.concat(m.toString() + "\n");
         }
 
         TextUI.displayMessage(s);
     }
 
-    private void displaySeries() {
-        String s ="\nSeries:\n";
-
-        for (Series s1 : series) {
-            //  s += p.toString();
-            s = s.concat(s1.toString()+"\n");
-        }
-
-        TextUI.displayMessage(s);
-    }
-
-    private void makeMovies(ArrayList<String> moviesList) { // lav det samme for series
+    private void makeMovies(ArrayList<String> moviesList) {
         if (moviesList.size() > 0) {
             for (String s : moviesList) {
 
@@ -186,11 +196,24 @@ public class MainMenu {
 
                 Movie mm = new Movie(name, releaseYear, aGenre, rating);
                 movies.add(mm);
+
+                // debug
+                System.out.println("Series: " + name + " Genres: " + aGenre);
             }
         }
     }
 
+    // Serier
+    private void displaySeries() {
+        String s = "\nSeries:\n";
 
+        for (Series s1 : series) {
+            //  s += p.toString();
+            s = s.concat(s1.toString() + "\n");
+        }
+
+        TextUI.displayMessage(s);
+    }
 
     private void makeSeries(ArrayList<String> seriesList) {
         if (seriesList.size() > 0) {
@@ -200,18 +223,13 @@ public class MainMenu {
                 String[] row = s.split(";");
                 String name = row[0];
 
-                // int releaseYear = Integer.parseInt(row[1].trim());
 
                 String releaseYear = row[1];
 
-                // De her int skal ændres fordi på plads 2 er der to tal med "-" og det er ikke to tal på to pladser i arraylist
-                //int yearFrom = Integer.parseInt(row[2].trim());
-                //int yearTo = Integer.parseInt(row[3].trim());
-
                 String genre = row[2];
-                String[] movieGenre = genre.split(", ");
+                String[] seriesGenre = genre.split(", ");
                 ArrayList<String> aGenre = new ArrayList<>();
-                for (String s1 : movieGenre) {
+                for (String s1 : seriesGenre) {
                     aGenre.add(s1);
                 }
 
@@ -220,28 +238,22 @@ public class MainMenu {
                 double rating = Double.parseDouble(r.trim());
 
                 String seasonAndEpisodes = row[4];
+                String[] seriesSeason = seasonAndEpisodes.split(",");
+                ArrayList<String> aSeasonAndEpisodes = new ArrayList<>();
+                for (String s2 : seriesSeason) {
+                    aSeasonAndEpisodes.add(s2);
+                }
 
-                Series ss = new Series(name, releaseYear, aGenre, seasonAndEpisodes, rating);
+                Series ss = new Series(name, releaseYear, aGenre, rating, aSeasonAndEpisodes);
                 series.add(ss);
+
+                // debug
+                System.out.println("Series: " + name + " Genres: " + aGenre);
             }
         }
     }
 
-    private void makeUser(ArrayList<String> userList) { // lav det samme for series
-        if (userList.size() > 0) {
-
-            for (String s : userList) {
-
-                String[] row = s.split(",");
-                String userName = row[0];
-                String passWord = row[1];
-
-                User u = new User(userName, passWord);
-                users.add(u);
-            }
-        }
-    }
-
+    // Søge Media
     public static void searchMedia(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
         Scanner scanner = new Scanner(System.in);
 
@@ -264,6 +276,8 @@ public class MainMenu {
             } else {
                 TextUI.displayMessage("Not found");
             }
+
+
         }
         scanner.close();
     }
@@ -278,68 +292,96 @@ public class MainMenu {
         return false;
     }
 
-    public static void searchGenre(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
+
+    // Genre
+    private void displayGenres() {
+        TextUI.displayMessage("Genres:");
+
+        for (GenreList genre : genres) {
+            TextUI.displayMessage(genre.getGenreAll());
+        }
+    }
+
+    private void makeGenre(ArrayList<String> genreList) {
+        if (genreList.size() > 0) {
+            for (String s : genreList) {
+
+                String[] row = s.split(";");
+                String genreAll = row[0].trim(); // Trim to remove leading/trailing whitespaces
+
+                GenreList gg = new GenreList(genreAll);
+                genres.add(gg);
+            }
+        }
+    }
+
+    public static void searchGenre(ArrayList<? extends GenreList> genres) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Please enter the name of a Genre, if you want to exit, please type 'exit': ");
+            TextUI.displayMessage("Please enter the name of a genre, if you want to exit, please type 'exit': ");
             String search = scanner.nextLine();
 
-            //end loop if user types exit
             if (search.equalsIgnoreCase("exit")) {
                 break;
             }
 
             //find the media in lists
-            boolean foundMovies = searchList(movie, search);
-            boolean foundSeries = searchList(serie, search);
+            boolean foundGenres = searchGenreList(genres, search);
 
             //display results
-            if (foundMovies && foundSeries) {
-                TextUI.displayMessage("Genre found! ");
+            if (foundGenres) {
+                TextUI.displayMessage("Media found");
+
+
             } else {
-                TextUI.displayMessage("Not found, please try again. ");
+                TextUI.displayMessage("Not found");
             }
+
         }
+
         scanner.close();
     }
 
-
-
-    /*
-    private static boolean searchGenre(ArrayList<? extends AMedia> list, String searchGenre) {
-        for(AMedia media: list){
-            if(AMedia.getGenre().equalsIgnoreCase(searchGenre)){
-                TextUI.displayMessage("Found: " + media);
+    private static boolean searchGenreList(ArrayList<? extends GenreList> list, String searchTerm) {
+        for (GenreList genreList : list) {
+            if (genreList.getGenreAll().equals(searchTerm)) {
+                TextUI.displayMessage("Found: " + genreList);
                 return true;
             }
         }
         return false;
     }
 
-     */
 
+    public void findGenre() {
+        TextUI.displayMessage("Write the genre name, you want to search");
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
 
+        for (Movie m : movies) {
+            ArrayList<String> mm = m.getGenre();
+            for (String genre : mm) {
+                if (userInput.equalsIgnoreCase(genre.trim())) {
+                    System.out.println(m);
 
-    /*
-    private static boolean searchGenre(ArrayList<? extends AMedia> list, String searchGenre) {
-        for (AMedia media : list) {
-            for (String genre : media.getGenres()) { // antager, at der er en getGenres() metode i din AMedia-klasse
-                if (genre.toLowerCase().contains(searchGenre.toLowerCase())) {
-                    TextUI.displayMessage("Found: " + media);
-                    return true;
+                    break;
                 }
             }
         }
-        return false;
+
+        for (Series s : series) {
+            ArrayList<String> ss = s.getGenre();
+            for (String genre : ss) {
+                if (userInput.equalsIgnoreCase(genre.trim())) {
+                    System.out.println(s);
+
+                    break;
+                }
+            }
+        }
     }
 
-     */
-
-
-
-    public void searchGenre() {
-    }
 
     public ArrayList<Movie> getMovies() {
         return movies;
@@ -349,18 +391,8 @@ public class MainMenu {
         return series;
     }
 
-    /*
-    textUI.displayMessage(" Thanks for watching! ");
-    endGame();
-}
-    private void endGame() {
-        FileIO.saveGameData(users);
-    }
-    */
-
     @Override
     public String toString() {
         return toString();
     }
-
 }

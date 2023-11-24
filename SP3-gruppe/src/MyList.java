@@ -35,6 +35,28 @@ public class MyList {
         }
     }
 
+    public List<String> watchedMoviesAndSeries(String title)  {
+        // Der hvor vi kalder denne metode, skal den sætte en enkelt titel ind ad gangen.
+        // Derefter gemmes den titel i en liste som denne metode returnere.
+        ArrayList<String> allMediaWatched = new ArrayList<>();
+
+        allMediaWatched.add(title);
+        TextUI.displayMessage("Media has been added to watched list");
+
+        return allMediaWatched;
+    }
+
+    public List<String> savedMoviesAndSeries(String title)  {
+        // Der hvor vi kalder denne metode, skal den sætte en enkelt titel ind ad gangen.
+        // Derefter gemmes den titel i en liste til at se senere.
+        ArrayList<String> allSavedMedia = new ArrayList<>();
+
+        allSavedMedia.add(title);
+        TextUI.displayMessage("Media has been added to saved list");
+
+        return allSavedMedia;
+    }
+
   /*  public static void main(String[] args) {
         MyList myList = new MyList();
 
@@ -50,4 +72,3 @@ public class MyList {
         myList.displaySavedMedia();
     } */
 }
-
