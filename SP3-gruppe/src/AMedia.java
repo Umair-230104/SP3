@@ -16,9 +16,6 @@ public abstract class AMedia implements Media {
     }
 
 
-
-
-
     @Override
     public String playMedia() {
 
@@ -31,9 +28,6 @@ public abstract class AMedia implements Media {
         return getName() + " is stopped";
     }
 
-
-
-    // Hvorfor virker @override ikke her?
     public String getName() {
         return name;
     }

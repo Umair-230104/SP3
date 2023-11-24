@@ -14,8 +14,7 @@ public class GenreList {
     @Override
     public String toString() {
         return "GenreList{" +
-                "genreAll='" + getGenreAll() + '\'' +
-                '}';
+                "genreAll: " + getGenreAll() + '\n';
     }
 
 }

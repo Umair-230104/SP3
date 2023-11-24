@@ -13,11 +13,6 @@ public class Movie extends AMedia {
         super(name, releaseYear, genre, rating);
     }
 
-//getUser
-
-
-
-
 
     @Override
     public String stopMedia() {

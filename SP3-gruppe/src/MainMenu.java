@@ -16,38 +16,57 @@ public class MainMenu {
 
     Scanner scanner = new Scanner(System.in);
     private ArrayList<String> savedMediaList = new ArrayList<>();
+
     public void setUp() {
         // test user
         ArrayList<String> user = io.readUserData("ListUser.data");
         users = new ArrayList<>();// dette fik det til at virke
         displayMenuOptions();
 
+        chooseMenu();
+    }
+
+
+    public void chooseMenu() {
+
         // test movies
         ArrayList<String> movie = io.readMovieData("movies.data");
         makeMovies(movie);
-
 
         // test series
         ArrayList<String> serie = io.readSeriesData("series.data");
         makeSeries(serie);
 
         // test searchMedia
-        searchMedia(movies, series);
-
-
-        // test genre
         ArrayList<String> genre = io.readGenreData("GenreList.data");
         makeGenre(genre);
-        System.out.println(genres);
-        displayGenres();
-        findGenre();
 
 
-        searchGenre(genres);
+        TextUI.displayMessage("Choose one option");
+        TextUI.displayMessage("1. Search Media ");
+        TextUI.displayMessage("2. Search Genre ");
+
+        TextUI.getUserInput();
+
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                searchMedia(movies, series);
+                break;
+            case 2:
+                //System.out.println(genres);
+                displayGenres();
+                findGenre();
+                searchGenre(genres);
+                break;
+            default:
+                TextUI.displayMessage("Invalid choice, try again");
+        }
     }
 
 
-
+// ---------------------------------------------------------------------------------------------------------------------
     public void chooseMedia() {
         //Scanner scanner = new Scanner(System.in);
         TextUI.displayMessage("Choose one option");
@@ -112,9 +131,7 @@ public class MainMenu {
             TextUI.displayMessage(mediaName + " is not founded in watch to later");
         }
     }
-
-
-
+// ---------------------------------------------------------------------------------------------------------------------
 
 
     // User login og sign up
@@ -148,7 +165,7 @@ public class MainMenu {
         String password = TextUI.getUserInput();
 
         // create a new user and add it to the list
-      currentUser = new User(username, password);
+        currentUser = new User(username, password);
 
         // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
@@ -187,7 +204,6 @@ public class MainMenu {
         }
         return false;
     }
-
 
     private User findUser(String username, String password) {
         for (User user : users) {
@@ -267,9 +283,6 @@ public class MainMenu {
 
                 Movie mm = new Movie(name, releaseYear, aGenre, rating);
                 movies.add(mm);
-
-                // debug
-                System.out.println("Series: " + name + " Genres: " + aGenre);
             }
         }
     }
@@ -317,9 +330,6 @@ public class MainMenu {
 
                 Series ss = new Series(name, releaseYear, aGenre, rating, aSeasonAndEpisodes);
                 series.add(ss);
-
-                // debug
-                System.out.println("Series: " + name + " Genres: " + aGenre);
             }
         }
     }
@@ -341,7 +351,7 @@ public class MainMenu {
             AMedia foundSeries = searchList(serie, search);
 
             //display results
-            if (foundMovies != null ) {
+            if (foundMovies != null) {
                 TextUI.displayMessage(foundMovies.getName() + " is now playing ");
 
             } else {
@@ -349,7 +359,7 @@ public class MainMenu {
             }
 
 
-            if (foundSeries != null ) {
+            if (foundSeries != null) {
                 TextUI.displayMessage(foundSeries.getName() + " is now playing ");
 
             } else {
