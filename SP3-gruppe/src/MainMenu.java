@@ -4,28 +4,23 @@ import java.util.Scanner;
 public class MainMenu {
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Series> series = new ArrayList<>();
-
-    // Genre
     private ArrayList<GenreList> genres = new ArrayList<>();
-
     private FileIO io = new FileIO();
     private TextUI ui = new TextUI();
     private ArrayList<User> users;
-
     User currentUser;
+    static Scanner scanner = new Scanner(System.in);
 
-    Scanner scanner = new Scanner(System.in);
-    private ArrayList<String> savedMediaList = new ArrayList<>();
 
     public void setUp() {
+
         // test user
         ArrayList<String> user = io.readUserData("ListUser.data");
-        users = new ArrayList<>();// dette fik det til at virke
+        users = new ArrayList<>();
         displayMenuOptions();
 
         chooseMenu();
     }
-
 
     public void chooseMenu() {
 
@@ -45,6 +40,9 @@ public class MainMenu {
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Search Media ");
         TextUI.displayMessage("2. Search Genre ");
+        TextUI.displayMessage("3. See your current watched list ");
+        TextUI.displayMessage("4. See your saved list");
+        TextUI.displayMessage("");
 
         TextUI.getUserInput();
 
@@ -59,6 +57,15 @@ public class MainMenu {
                 displayGenres();
                 findGenre();
                 searchGenre(genres);
+                chooseMenu();
+                break;
+            case 3:
+                displayWatchedMedia();
+                chooseMenu();
+                break;
+            case 4:
+                displaySavedMedia();
+                chooseMenu();
                 break;
             default:
                 TextUI.displayMessage("Invalid choice, try again");
@@ -67,70 +74,87 @@ public class MainMenu {
 
 
 // ---------------------------------------------------------------------------------------------------------------------
-    public void chooseMedia() {
-        //Scanner scanner = new Scanner(System.in);
+
+    public void chooseMedia(AMedia choosingMedia) {
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Play media ");
         TextUI.displayMessage("2. Save media ");
         TextUI.displayMessage("3. Delete from saved ");
         TextUI.displayMessage("4. Exit ");
         TextUI.getUserInput();
-
         int choice = scanner.nextInt();
 
         switch (choice) {
             case 1:
-                //String s = playMedia();
-                //TextUI.displayMessage(s);
+                String s = playMedia(choosingMedia);
+                TextUI.displayMessage(s);
+                chooseMenu();
                 break;
             case 2:
-                saveMediaWatchLater();
+                saveMediaWatchLater(choosingMedia);
+                chooseMenu();
                 break;
             case 3:
-                deleteMediaWatchToLater();
+                deleteMediaWatchToLater(choosingMedia);
+                chooseMenu();
                 break;
             case 4:
-                ExitMediaWatchLater();
+                ExitMedia();
                 break;
             default:
                 TextUI.displayMessage("Invalid choice, try again");
         }
     }
 
-    /*
-    public String playMedia() {
+    public String playMedia(AMedia cm) {
+        currentUser.addWatchedMedia(cm);
 
-        return " Media name: " + getName() + " Release year: " + getReleaseYear()  + "  is playing";
+        return "Media name: " + cm.getName()
+                + "\nRelease:" + cm.getReleaseYear()
+                + "\n" + cm.getName() + " Is playing";
     }
 
-     */
-
-    private void ExitMediaWatchLater() {
-        //Scanner scanner = new Scanner((System.in));
-        TextUI.displayMessage("Exit media");
-        String mediaName = scanner.next();
-    }
-
-    private void saveMediaWatchLater() {
-        //Scanner scanner = new Scanner(System.in);
+    private void saveMediaWatchLater(AMedia cm) {
         TextUI.displayMessage("Write the media name you want to save");
         String mediaName = scanner.next();
-        savedMediaList.add(mediaName);
+
+        ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
+
+        currentUser.addSavedMedia(cm);
+        //savedMedia.add(cm);
         TextUI.displayMessage(mediaName + " is saved in watch to later");
     }
 
-    private void deleteMediaWatchToLater() {
-        // Scanner scanner1 = new Scanner(System.in);
+    private void deleteMediaWatchToLater(AMedia cm) {
         TextUI.displayMessage("Write the media name, you want to delete");
         String mediaName = scanner.next();
 
-        if (savedMediaList.contains(mediaName)) {
-            savedMediaList.remove(mediaName);
+        ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
+
+        if (savedMedia.contains(cm)) {
+            savedMedia.remove(cm);
             TextUI.displayMessage(mediaName + " is deleted from watch to later");
         } else {
             TextUI.displayMessage(mediaName + " is not founded in watch to later");
         }
     }
+
+    private void displayWatchedMedia(){
+        ArrayList<AMedia> watchedMedia = currentUser.getWatchedMedia();
+        System.out.println(watchedMedia);
+    }
+
+    private void displaySavedMedia(){
+        ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
+        System.out.println(savedMedia);
+    }
+
+    private void ExitMedia() {
+        TextUI.displayMessage("Exit media");
+        String mediaName = scanner.next();
+    }
+
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 
@@ -244,7 +268,6 @@ public class MainMenu {
             case 2:
                 signUp();
                 break;
-
             default:
                 TextUI.displayMessage("Invalid, please try again");
         }
@@ -256,7 +279,6 @@ public class MainMenu {
         String s = "\nMovies:\n";
 
         for (Movie m : movies) {
-            //  s += p.toString();
             s = s.concat(m.toString() + "\n");
         }
 
@@ -292,7 +314,6 @@ public class MainMenu {
         String s = "\nSeries:\n";
 
         for (Series s1 : series) {
-            //  s += p.toString();
             s = s.concat(s1.toString() + "\n");
         }
 
@@ -335,7 +356,7 @@ public class MainMenu {
     }
 
     // Søge Media
-    public static void searchMedia(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
+    public void searchMedia(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -353,7 +374,7 @@ public class MainMenu {
             //display results
             if (foundMovies != null) {
                 TextUI.displayMessage(foundMovies.getName() + " is now playing ");
-
+                chooseMedia(foundMovies);
             } else {
                 TextUI.displayMessage("Not found");
             }
@@ -361,7 +382,7 @@ public class MainMenu {
 
             if (foundSeries != null) {
                 TextUI.displayMessage(foundSeries.getName() + " is now playing ");
-
+                chooseMedia(foundSeries);
             } else {
                 TextUI.displayMessage("Not found");
             }
@@ -405,7 +426,7 @@ public class MainMenu {
         }
     }
 
-    public static void searchGenre(ArrayList<? extends GenreList> genres) {
+    public void searchGenre(ArrayList<? extends GenreList> genres) {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -422,6 +443,7 @@ public class MainMenu {
             //display results
             if (foundGenres) {
                 TextUI.displayMessage("Media found");
+
 
 
             } else {
@@ -454,6 +476,7 @@ public class MainMenu {
             for (String genre : mm) {
                 if (userInput.equalsIgnoreCase(genre.trim())) {
                     System.out.println(m);
+                    chooseMedia(m);
 
                     break;
                 }
@@ -465,6 +488,7 @@ public class MainMenu {
             for (String genre : ss) {
                 if (userInput.equalsIgnoreCase(genre.trim())) {
                     System.out.println(s);
+                    chooseMedia(s);
 
                     break;
                 }

@@ -11,7 +11,6 @@ public class MyList {
         savedList = new ArrayList<>();
     }
 
-
     public void watchedMedia(String title) {
         watchedMediaList.add(title);
         TextUI.displayMessage("Added to Watched List: " + title);
