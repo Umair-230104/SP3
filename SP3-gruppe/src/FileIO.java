@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +7,6 @@ public class FileIO {
     public ArrayList<String> readMovieData(String path) {
         ArrayList<String> movie = new ArrayList<>();
         File f = new File(path);
-
 
 
         try {
@@ -79,7 +75,6 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(file);
-            //scan.nextLine();
             while (scan.hasNextLine()) {
                 String s = scan.nextLine();
                 users.add(s);
@@ -90,13 +85,12 @@ public class FileIO {
         return users;
     }
 
-
     public void saveUserData(ArrayList<User> users) {
         try {
             FileWriter writer = new FileWriter("ListUser.data");
-            writer.write("Username, password " + " \n");
+            writer.write("Username, password" + " \n");
             for (User u : users) {
-                String textTosave = u.getUserName() + "," + u.getPassWord();
+                String textTosave = u.getUserName() + "," + u.getPassWord(); // nyt
                 writer.write(textTosave + "\n");
             }
             writer.close();
@@ -105,15 +99,10 @@ public class FileIO {
         }
     }
 
-
-
-
-
-
-// GENRE
-public ArrayList<String> readGenreData(String path) {
-    ArrayList<String> genres = new ArrayList<>();
-    File f = new File(path);
+    // genre
+    public ArrayList<String> readGenreData(String path) {
+        ArrayList<String> genres = new ArrayList<>();
+        File f = new File(path);
         try {
             Scanner scan = new Scanner(f);
             //scan.nextLine();
@@ -140,6 +129,7 @@ public ArrayList<String> readGenreData(String path) {
             TextUI.displayMessage("noget gik galt ved skrivning til fil");
         }
     }
+
 
 }
 

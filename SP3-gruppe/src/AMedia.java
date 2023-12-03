@@ -15,7 +15,6 @@ public abstract class AMedia implements Media {
         this.rating = rating;
     }
 
-
     @Override
     public String playMedia() {
 

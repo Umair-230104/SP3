@@ -13,17 +13,29 @@ public class MainMenu {
 
 
     public void setUp() {
-
         // test user
         ArrayList<String> user = io.readUserData("ListUser.data");
         users = new ArrayList<>();
+
+        loadUser();
+
+// ---------------------------------------------------------------------------------------------------------------------
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            saveUserToFile();
+            TextUI.displayMessage("Program is exiting, user data saved.");
+        }));
+// ---------------------------------------------------------------------------------------------------------------------
+
         displayMenuOptions();
 
         chooseMenu();
     }
 
-    public void chooseMenu() {
 
+
+
+// Start up menu options
+    public void chooseMenu() {
         // test movies
         ArrayList<String> movie = io.readMovieData("movies.data");
         makeMovies(movie);
@@ -36,16 +48,16 @@ public class MainMenu {
         ArrayList<String> genre = io.readGenreData("GenreList.data");
         makeGenre(genre);
 
-
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Search Media ");
         TextUI.displayMessage("2. Search Genre ");
         TextUI.displayMessage("3. See your current watched list ");
         TextUI.displayMessage("4. See your saved list");
+        TextUI.displayMessage("5. Search Movies by Rating");
+        TextUI.displayMessage("6. Exit Program"); // Add this option
+
         TextUI.displayMessage("");
-
         TextUI.getUserInput();
-
         int choice = scanner.nextInt();
 
         switch (choice) {
@@ -53,7 +65,6 @@ public class MainMenu {
                 searchMedia(movies, series);
                 break;
             case 2:
-                //System.out.println(genres);
                 displayGenres();
                 findGenre();
                 searchGenre(genres);
@@ -67,14 +78,19 @@ public class MainMenu {
                 displaySavedMedia();
                 chooseMenu();
                 break;
+            case 5:
+                searchMediaByRating();
+                chooseMenu();
+                break;
+            case 6:
+                System.exit(0);
+                break;
             default:
                 TextUI.displayMessage("Invalid choice, try again");
         }
     }
 
-
-// ---------------------------------------------------------------------------------------------------------------------
-
+    // Choosing Media options
     public void chooseMedia(AMedia choosingMedia) {
         TextUI.displayMessage("Choose one option");
         TextUI.displayMessage("1. Play media ");
@@ -150,28 +166,38 @@ public class MainMenu {
     }
 
     private void ExitMedia() {
-        TextUI.displayMessage("Exit media");
-        String mediaName = scanner.next();
+        chooseMenu();
+
+    }
+
+    public void searchMediaByRating() {
+        double minRating = 8.5;
+
+        TextUI.displayMessage("Searching for movies with a rating greater than " + minRating);
+
+        for (Movie movie : movies) {
+            if (movie.getRating() > minRating) {
+                TextUI.displayMessage(movie.toString());
+            }
+        }
     }
 
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-
     // User login og sign up
-    public void saveUserTofile() {
+    public void saveUserToFile() {
         io.saveUserData(users);
         TextUI.displayMessage("User is saved in file");
+    }
+
+    public void loadUser() {
+        users = new ArrayList<>();
+        ArrayList<String> userData = io.readUserData("ListUser.data");
+        makeUser(userData);
     }
 
     public void addUser(User u) {
         users.add(u);
     }
-
-    public void loadUser() {
-        ArrayList<String> usersData = io.readUserData("ListUser.data");
-    }
-
 
     //creating a new user
     public void signUp() {
@@ -189,7 +215,7 @@ public class MainMenu {
         String password = TextUI.getUserInput();
 
         // create a new user and add it to the list
-        currentUser = new User(username, password);
+        currentUser = new User(username, password); // nyt
 
         // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
@@ -208,17 +234,22 @@ public class MainMenu {
         TextUI.displayMessage("Enter your password: ");
         String password = TextUI.getUserInput();
 
-        //find user
-        currentUser = findUser(username, password);
-
-        // check if user exist and password is correct
-        if (currentUser != null && currentUser.getPassWord().equals(password) && currentUser.getUserName().equals(username)) {
+        // Find user and check credentials
+        if (authenticateUser(username, password)) {
             TextUI.displayMessage("Welcome " + username + "!");
         } else {
-            TextUI.displayMessage("Invalid, please try again!");
+            TextUI.displayMessage("Invalid username or password, please try again!");
         }
-
     }
+
+    private boolean authenticateUser(String username, String password) {
+        // Find user
+        currentUser = findUser(username, password);
+
+        // Check if user exists and password is correct
+        return currentUser != null && currentUser.getPassWord().equals(password) && currentUser.getUserName().equals(username);
+    }
+
 
     private boolean isUsernameTaken(String username) {
         for (User user : users) {
@@ -239,7 +270,7 @@ public class MainMenu {
     }
 
     private void makeUser(ArrayList<String> userList) {
-        if (userList.size() > 0) {
+        if (userList.size() >= 0) {
 
             for (String s : userList) {
 
@@ -379,7 +410,6 @@ public class MainMenu {
                 TextUI.displayMessage("Not found");
             }
 
-
             if (foundSeries != null) {
                 TextUI.displayMessage(foundSeries.getName() + " is now playing ");
                 chooseMedia(foundSeries);
@@ -430,6 +460,7 @@ public class MainMenu {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            chooseMenu();
             TextUI.displayMessage("Please enter the name of a genre, if you want to exit, please type 'exit': ");
             String search = scanner.nextLine();
 
@@ -443,12 +474,11 @@ public class MainMenu {
             //display results
             if (foundGenres) {
                 TextUI.displayMessage("Media found");
-
-
-
             } else {
                 TextUI.displayMessage("Not found");
             }
+
+
 
         }
 
@@ -495,7 +525,6 @@ public class MainMenu {
             }
         }
     }
-
 
     public ArrayList<Movie> getMovies() {
         return movies;

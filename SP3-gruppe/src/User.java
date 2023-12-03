@@ -9,8 +9,7 @@ public class User {
     private ArrayList <AMedia> savedMedia = new ArrayList<>();
 
 
-
-    public User(String userName, String passWord) {
+    public User(String userName, String passWord) {// nyt
         this.userName = userName;
         this.passWord = passWord;
         this.ml = new MyList();
@@ -44,10 +43,5 @@ public class User {
     public String getPassWord() {
         return passWord;
     }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
 
 }
