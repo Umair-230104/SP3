@@ -5,13 +5,11 @@ public class Series extends AMedia {
     private ArrayList<String> seasonAndEpisodes;
     private ArrayList<String> savedMediaList = new ArrayList<>();
 
-
     public Series(String name, String releaseYear, ArrayList<String> genre, double rating, ArrayList<String> seasonAndEpisodes) {
         super(name, releaseYear, genre, rating);
         this.seasonAndEpisodes = seasonAndEpisodes;
 
     }
-
 
     @Override
     public String stopMedia() {
@@ -52,6 +50,5 @@ public class Series extends AMedia {
                         "\n Rating: " + getRating() +
                         "\n";
     }
-
 }
 

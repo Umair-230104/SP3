@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class FileIO {
 
+
+ // Movies
     public ArrayList<String> readMovieData(String path) {
         ArrayList<String> movie = new ArrayList<>();
         File f = new File(path);
-
-
         try {
             Scanner scan = new Scanner(f);
             //scan.nextLine();
@@ -32,14 +32,14 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage( "something went wrong during writing to file");
         }
     }
 
+//Series
     public ArrayList<String> readSeriesData(String path) {
         ArrayList<String> series = new ArrayList<>();
         File file = new File(path);
-
         try {
             Scanner scan = new Scanner(file);
             //scan.nextLine();
@@ -63,16 +63,16 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage( "something went wrong during writing to file");
         }
 
 
     }
 
+//User
     public ArrayList<String> readUserData(String path) {
         ArrayList<String> users = new ArrayList<>();
         File file = new File(path);
-
         try {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
@@ -95,11 +95,11 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage( "something went wrong during writing to file");
         }
     }
 
-    // genre
+//Genre
     public ArrayList<String> readGenreData(String path) {
         ArrayList<String> genres = new ArrayList<>();
         File f = new File(path);
@@ -126,11 +126,9 @@ public class FileIO {
             }
             writer.close();
         } catch (IOException e) {
-            TextUI.displayMessage("noget gik galt ved skrivning til fil");
+            TextUI.displayMessage( "something went wrong during writing to file");
         }
     }
-
-
 }
 
 

@@ -4,10 +4,8 @@ public class User {
     private MyList ml;
     private String userName;
     private String passWord;
-
     private ArrayList<AMedia> watchedMedia = new ArrayList<>();
     private ArrayList <AMedia> savedMedia = new ArrayList<>();
-
 
     public User(String userName, String passWord) {// nyt
         this.userName = userName;
@@ -19,11 +17,9 @@ public class User {
         watchedMedia.add(m);
     }
 
-
     public void addSavedMedia(AMedia m){
         savedMedia.add(m);
     }
-
 
     public ArrayList<AMedia> getWatchedMedia() {
         return watchedMedia;
@@ -43,5 +39,4 @@ public class User {
     public String getPassWord() {
         return passWord;
     }
-
 }

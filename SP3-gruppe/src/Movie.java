@@ -1,18 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class Movie extends AMedia {
     private ArrayList<String> savedMediaList = new ArrayList<>();
-
-
     Scanner scanner = new Scanner(System.in);
-
 
     public Movie(String name, String releaseYear, ArrayList<String> genre, double rating) {
         super(name, releaseYear, genre, rating);
     }
-
 
     @Override
     public String stopMedia() {
@@ -48,6 +43,5 @@ public class Movie extends AMedia {
                         "\n Rating: " + getRating() +
                         "\n";
     }
-
 }
 

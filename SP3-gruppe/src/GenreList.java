@@ -16,6 +16,5 @@ public class GenreList {
         return "GenreList{" +
                 "genreAll: " + getGenreAll() + '\n';
     }
-
 }
 

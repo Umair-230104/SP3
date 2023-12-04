@@ -11,30 +11,46 @@ public class MainMenu {
     User currentUser;
     static Scanner scanner = new Scanner(System.in);
 
-
     public void setUp() {
-        // test user
-        ArrayList<String> user = io.readUserData("ListUser.data");
-        users = new ArrayList<>();
-
-        loadUser();
-
-// ---------------------------------------------------------------------------------------------------------------------
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            saveUserToFile();
-            TextUI.displayMessage("Program is exiting, user data saved.");
-        }));
-// ---------------------------------------------------------------------------------------------------------------------
-
+        saveAndLoadUserData();
         displayMenuOptions();
-
         chooseMenu();
     }
 
+    //Save And Load User data
+    public void saveAndLoadUserData() {
+        // test user
+        ArrayList<String> user = io.readUserData("ListUser.data");
+        users = new ArrayList<>();
+// ---------------------------------------------------------------------------------------------------------------------
+        loadUser();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            saveUserToFile();
+            TextUI.displayMessage("Program Is Exiting, User Data Saved.");
+        }));
+// ---------------------------------------------------------------------------------------------------------------------
+    }
 
+    //Menu Options
+    public void displayMenuOptions() {
+        TextUI.displayMessage("Welcome To The Streaming Platform, You Now Have Two Options");
+        TextUI.displayMessage("1. Log In");
+        TextUI.displayMessage("2. Sign Up");
+        TextUI.displayMessage("Enter Your Choice: ");
+        int choice = Integer.parseInt(TextUI.getUserInput());
+        switch ((choice)) {
+            case 1:
+                logIn();
+                break;
+            case 2:
+                signUp();
+                break;
+            default:
+                TextUI.displayMessage("Invalid, Please Try Again");
+        }
+    }
 
-
-// Start up menu options
+    //Start Up Menu Options
     public void chooseMenu() {
         // test movies
         ArrayList<String> movie = io.readMovieData("movies.data");
@@ -48,14 +64,15 @@ public class MainMenu {
         ArrayList<String> genre = io.readGenreData("GenreList.data");
         makeGenre(genre);
 
-        TextUI.displayMessage("Choose one option");
+        TextUI.displayMessage("Choose One Option");
         TextUI.displayMessage("1. Search Media ");
         TextUI.displayMessage("2. Search Genre ");
-        TextUI.displayMessage("3. See your current watched list ");
-        TextUI.displayMessage("4. See your saved list");
-        TextUI.displayMessage("5. Search Movies by Rating");
-        TextUI.displayMessage("6. Exit Program"); // Add this option
-
+        TextUI.displayMessage("3. See Your Watched List ");
+        TextUI.displayMessage("4. See Your Saved List");
+        TextUI.displayMessage("5. See Media By Rating");
+        TextUI.displayMessage("6. See Media By Release Date After 2000 ");
+        TextUI.displayMessage("7. Search Media By Release Date Before 2000 ");
+        TextUI.displayMessage("8. Exit Program");
         TextUI.displayMessage("");
         TextUI.getUserInput();
         int choice = scanner.nextInt();
@@ -83,19 +100,27 @@ public class MainMenu {
                 chooseMenu();
                 break;
             case 6:
+                searchMediaByYearAfter();
+                chooseMenu();
+                break;
+            case 7:
+                searchMediaByYearBefore();
+                chooseMenu();
+                break;
+            case 8:
                 System.exit(0);
                 break;
             default:
-                TextUI.displayMessage("Invalid choice, try again");
+                TextUI.displayMessage("Invalid Choice, Try Again");
         }
     }
 
-    // Choosing Media options
+    //Choose Media Options
     public void chooseMedia(AMedia choosingMedia) {
         TextUI.displayMessage("Choose one option");
-        TextUI.displayMessage("1. Play media ");
-        TextUI.displayMessage("2. Save media ");
-        TextUI.displayMessage("3. Delete from saved ");
+        TextUI.displayMessage("1. Play Media ");
+        TextUI.displayMessage("2. Save Media ");
+        TextUI.displayMessage("3. Delete From Saved ");
         TextUI.displayMessage("4. Exit ");
         TextUI.getUserInput();
         int choice = scanner.nextInt();
@@ -118,49 +143,43 @@ public class MainMenu {
                 ExitMedia();
                 break;
             default:
-                TextUI.displayMessage("Invalid choice, try again");
+                TextUI.displayMessage("Invalid Choice, Try Again");
         }
     }
 
     public String playMedia(AMedia cm) {
         currentUser.addWatchedMedia(cm);
-
-        return "Media name: " + cm.getName()
+        return "Media Name: " + cm.getName()
                 + "\nRelease:" + cm.getReleaseYear()
-                + "\n" + cm.getName() + " Is playing";
+                + "\n" + cm.getName() + " Is Playing";
     }
 
     private void saveMediaWatchLater(AMedia cm) {
-        TextUI.displayMessage("Write the media name you want to save");
+        TextUI.displayMessage("Write The Media Name You Want To Save");
         String mediaName = scanner.next();
-
         ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
-
         currentUser.addSavedMedia(cm);
-        //savedMedia.add(cm);
-        TextUI.displayMessage(mediaName + " is saved in watch to later");
+        TextUI.displayMessage(mediaName + " Is Saved In Watch To Later");
     }
 
     private void deleteMediaWatchToLater(AMedia cm) {
-        TextUI.displayMessage("Write the media name, you want to delete");
+        TextUI.displayMessage("Write The Media Name, You Want To Delete");
         String mediaName = scanner.next();
-
         ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
-
         if (savedMedia.contains(cm)) {
             savedMedia.remove(cm);
-            TextUI.displayMessage(mediaName + " is deleted from watch to later");
+            TextUI.displayMessage(mediaName + " Is Not Founded In Watch To Later");
         } else {
-            TextUI.displayMessage(mediaName + " is not founded in watch to later");
+            TextUI.displayMessage(mediaName + " Is Not Founded In Watch To Later");
         }
     }
 
-    private void displayWatchedMedia(){
+    private void displayWatchedMedia() {
         ArrayList<AMedia> watchedMedia = currentUser.getWatchedMedia();
         System.out.println(watchedMedia);
     }
 
-    private void displaySavedMedia(){
+    private void displaySavedMedia() {
         ArrayList<AMedia> savedMedia = currentUser.getSavedMedia();
         System.out.println(savedMedia);
     }
@@ -170,23 +189,56 @@ public class MainMenu {
 
     }
 
+    //Extra Features
     public void searchMediaByRating() {
         double minRating = 8.5;
-
-        TextUI.displayMessage("Searching for movies with a rating greater than " + minRating);
-
+        TextUI.displayMessage("Searching For Media With A Rating More Than " + minRating);
         for (Movie movie : movies) {
             if (movie.getRating() > minRating) {
                 TextUI.displayMessage(movie.toString());
             }
         }
+        for (Series series : series) {
+            if (series.getRating() > minRating) {
+                TextUI.displayMessage(series.toString());
+            }
+        }
     }
 
+    public void searchMediaByYearAfter() {
+        int minYear = 2000;
+        TextUI.displayMessage("Searching For Media With A Year After " + minYear);
+        for (Movie movie : movies) {
+            if (Integer.parseInt(movie.getReleaseYear().trim().split("-")[0]) > minYear) {
+                TextUI.displayMessage(movie.toString());
+            }
+        }
+        for (Series series : series) {
+            if (Integer.parseInt(series.getReleaseYear().trim().split("-")[0]) > minYear) {
+                TextUI.displayMessage(series.toString());
+            }
+        }
+    }
 
-    // User login og sign up
+    public void searchMediaByYearBefore() {
+        int minYear = 2000;
+        TextUI.displayMessage("Searching For Media With A Year Before " + minYear);
+        for (Movie movie : movies) {
+            if (Integer.parseInt(movie.getReleaseYear().trim().split("-")[0]) < minYear) {
+                TextUI.displayMessage(movie.toString());
+            }
+        }
+        for (Series series : series) {
+            if (Integer.parseInt(series.getReleaseYear().trim().split("-")[0]) < minYear) {
+                TextUI.displayMessage(series.toString());
+            }
+        }
+    }
+
+    //User Login and Sign Up
     public void saveUserToFile() {
         io.saveUserData(users);
-        TextUI.displayMessage("User is saved in file");
+        TextUI.displayMessage("User Is Saved In File");
     }
 
     public void loadUser() {
@@ -199,57 +251,43 @@ public class MainMenu {
         users.add(u);
     }
 
-    //creating a new user
     public void signUp() {
         TextUI.displayMessage("Sign Up");
-        TextUI.displayMessage("Enter your username: ");
+        TextUI.displayMessage("Enter Your Username: ");
         String username = TextUI.getUserInput();
-
         //check if username already exists
         if (isUsernameTaken(username)) {
-            TextUI.displayMessage("Username already exists, please try again: ");
+            TextUI.displayMessage("Username Already Exists, Please Try Again: ");
             return;
         }
-
-        TextUI.displayMessage("Create password: ");
+        TextUI.displayMessage("Create Password: ");
         String password = TextUI.getUserInput();
-
         // create a new user and add it to the list
-        currentUser = new User(username, password); // nyt
-
-        // newUser blev aldrig gemt i "users" arraylist
+        currentUser = new User(username, password);
         users.add(currentUser);
-
-        TextUI.displayMessage("Sign up completed, you can now log in.");
+        TextUI.displayMessage("Sign Up Completed, You Can Now Log In.");
         logIn();
     }
 
-
-    //login for existing users
     public void logIn() {
-        TextUI.displayMessage("Log in");
-        TextUI.displayMessage("Enter your username: ");
+        TextUI.displayMessage("Log In");
+        TextUI.displayMessage("Enter Your Username: ");
         String username = TextUI.getUserInput();
-
-        TextUI.displayMessage("Enter your password: ");
+        TextUI.displayMessage("Enter Your Password: ");
         String password = TextUI.getUserInput();
-
-        // Find user and check credentials
         if (authenticateUser(username, password)) {
             TextUI.displayMessage("Welcome " + username + "!");
         } else {
-            TextUI.displayMessage("Invalid username or password, please try again!");
+            TextUI.displayMessage("Invalid Username Or Password, Please Try Again!");
         }
     }
 
     private boolean authenticateUser(String username, String password) {
         // Find user
         currentUser = findUser(username, password);
-
         // Check if user exists and password is correct
         return currentUser != null && currentUser.getPassWord().equals(password) && currentUser.getUserName().equals(username);
     }
-
 
     private boolean isUsernameTaken(String username) {
         for (User user : users) {
@@ -271,60 +309,31 @@ public class MainMenu {
 
     private void makeUser(ArrayList<String> userList) {
         if (userList.size() >= 0) {
-
             for (String s : userList) {
-
                 String[] row = s.split(",");
                 String userName = row[0];
                 String passWord = row[1];
-
                 User u = new User(userName, passWord);
                 users.add(u);
             }
         }
     }
 
-    public void displayMenuOptions() {
-        TextUI.displayMessage("Welcome to the Streaming platform, you now have two options");
-        TextUI.displayMessage("1. Log in");
-        TextUI.displayMessage("2. Sign up");
-        TextUI.displayMessage("Enter your choice: ");
-        int choice = Integer.parseInt(TextUI.getUserInput());
-
-        switch ((choice)) {
-            case 1:
-                logIn();
-                break;
-
-            case 2:
-                signUp();
-                break;
-            default:
-                TextUI.displayMessage("Invalid, please try again");
-        }
-    }
-
-
-    // Filme
+    //Movies
     private void displayMovies() {
         String s = "\nMovies:\n";
-
         for (Movie m : movies) {
             s = s.concat(m.toString() + "\n");
         }
-
         TextUI.displayMessage(s);
     }
 
     private void makeMovies(ArrayList<String> moviesList) {
         if (moviesList.size() > 0) {
             for (String s : moviesList) {
-
                 String[] row = s.split(";");
                 String name = row[0];
-
                 String releaseYear = row[1];
-
                 String genre = row[2];
                 String[] movieGenre = genre.split(",");
                 ArrayList<String> aGenre = new ArrayList<>();
@@ -333,67 +342,53 @@ public class MainMenu {
                 }
                 String r = row[3].replace(',', '.');
                 double rating = Double.parseDouble(r.trim());
-
                 Movie mm = new Movie(name, releaseYear, aGenre, rating);
                 movies.add(mm);
             }
         }
     }
 
-    // Serier
+    //Series
     private void displaySeries() {
         String s = "\nSeries:\n";
-
         for (Series s1 : series) {
             s = s.concat(s1.toString() + "\n");
         }
-
         TextUI.displayMessage(s);
     }
 
     private void makeSeries(ArrayList<String> seriesList) {
         if (seriesList.size() > 0) {
-
             for (String s : seriesList) {
-
                 String[] row = s.split(";");
                 String name = row[0];
-
-
                 String releaseYear = row[1];
-
                 String genre = row[2];
                 String[] seriesGenre = genre.split(", ");
                 ArrayList<String> aGenre = new ArrayList<>();
                 for (String s1 : seriesGenre) {
                     aGenre.add(s1);
                 }
-
-
                 String r = row[3].replace(',', '.');
                 double rating = Double.parseDouble(r.trim());
-
                 String seasonAndEpisodes = row[4];
                 String[] seriesSeason = seasonAndEpisodes.split(",");
                 ArrayList<String> aSeasonAndEpisodes = new ArrayList<>();
                 for (String s2 : seriesSeason) {
                     aSeasonAndEpisodes.add(s2);
                 }
-
                 Series ss = new Series(name, releaseYear, aGenre, rating, aSeasonAndEpisodes);
                 series.add(ss);
             }
         }
     }
 
-    // Søge Media
+    //Search Media
     public void searchMedia(ArrayList<? extends AMedia> movie, ArrayList<? extends AMedia> serie) {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
-            TextUI.displayMessage("Please enter the name of a movie or series, if you want to exit, please type 'exit': ");
+            TextUI.displayMessage("Please Enter The Name Of A Movie Or Series, If You Want To Exit, Please Type 'Exit': ");
             String search = scanner.nextLine();
-
             //end loop if user types exit
             if (search.equalsIgnoreCase("exit")) {
                 break;
@@ -401,24 +396,20 @@ public class MainMenu {
             //find the media in lists
             AMedia foundMovies = searchList(movie, search);
             AMedia foundSeries = searchList(serie, search);
-
             //display results
             if (foundMovies != null) {
-                TextUI.displayMessage(foundMovies.getName() + " is now playing ");
+                TextUI.displayMessage(foundMovies.getName() + " Is Now Playing ");
                 chooseMedia(foundMovies);
             } else {
-                TextUI.displayMessage("Not found");
+                TextUI.displayMessage("Not Found");
             }
-
             if (foundSeries != null) {
-                TextUI.displayMessage(foundSeries.getName() + " is now playing ");
+                TextUI.displayMessage(foundSeries.getName() + " Is Now Playing ");
                 chooseMedia(foundSeries);
             } else {
-                TextUI.displayMessage("Not found");
+                TextUI.displayMessage("Not Found");
             }
-
         }
-
         scanner.close();
     }
 
@@ -426,18 +417,15 @@ public class MainMenu {
         for (AMedia amedia : list) {
             if (amedia.getName().equalsIgnoreCase(searchTerm)) {
                 TextUI.displayMessage("Found: " + amedia);
-
                 return amedia;
             }
         }
         return null;
     }
 
-
     // Genre
     private void displayGenres() {
         TextUI.displayMessage("Genres:");
-
         for (GenreList genre : genres) {
             TextUI.displayMessage(genre.getGenreAll());
         }
@@ -446,10 +434,8 @@ public class MainMenu {
     private void makeGenre(ArrayList<String> genreList) {
         if (genreList.size() > 0) {
             for (String s : genreList) {
-
                 String[] row = s.split(";");
-                String genreAll = row[0].trim(); // Trim to remove leading/trailing whitespaces
-
+                String genreAll = row[0].trim();
                 GenreList gg = new GenreList(genreAll);
                 genres.add(gg);
             }
@@ -458,30 +444,22 @@ public class MainMenu {
 
     public void searchGenre(ArrayList<? extends GenreList> genres) {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             chooseMenu();
-            TextUI.displayMessage("Please enter the name of a genre, if you want to exit, please type 'exit': ");
+            TextUI.displayMessage("Please Enter The Name Of A Genre, If You Want To Exit, Please Type 'Exit': ");
             String search = scanner.nextLine();
-
             if (search.equalsIgnoreCase("exit")) {
                 break;
             }
-
             //find the media in lists
             boolean foundGenres = searchGenreList(genres, search);
-
             //display results
             if (foundGenres) {
-                TextUI.displayMessage("Media found");
+                TextUI.displayMessage("Media Found");
             } else {
-                TextUI.displayMessage("Not found");
+                TextUI.displayMessage("Not Found");
             }
-
-
-
         }
-
         scanner.close();
     }
 
@@ -495,19 +473,16 @@ public class MainMenu {
         return false;
     }
 
-
     public void findGenre() {
-        TextUI.displayMessage("Write the genre name, you want to search");
+        TextUI.displayMessage("Write The Genre Name, You Want To Search");
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-
         for (Movie m : movies) {
             ArrayList<String> mm = m.getGenre();
             for (String genre : mm) {
                 if (userInput.equalsIgnoreCase(genre.trim())) {
                     System.out.println(m);
                     chooseMedia(m);
-
                     break;
                 }
             }
@@ -519,7 +494,6 @@ public class MainMenu {
                 if (userInput.equalsIgnoreCase(genre.trim())) {
                     System.out.println(s);
                     chooseMedia(s);
-
                     break;
                 }
             }
