@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainMenu {
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -253,20 +255,45 @@ public class MainMenu {
 
     public void signUp() {
         TextUI.displayMessage("Sign Up");
-        TextUI.displayMessage("Enter Your Username: ");
+        TextUI.displayMessage("Enter your username: ");
         String username = TextUI.getUserInput();
+
         //check if username already exists
         if (isUsernameTaken(username)) {
-            TextUI.displayMessage("Username Already Exists, Please Try Again: ");
+            TextUI.displayMessage("Username already exists, please try again: ");
             return;
         }
-        TextUI.displayMessage("Create Password: ");
-        String password = TextUI.getUserInput();
+
+        //create password
+        String password;
+        while (true) {
+            TextUI.displayMessage("Password must contain at least one uppercase letter and two numbers. Create password: ");
+            password = TextUI.getUserInput();
+
+            if (isValidPassword(password)) {
+                break;
+            } else {
+                TextUI.displayMessage("Invalid password. Please try again.");
+            }
+        }
         // create a new user and add it to the list
-        currentUser = new User(username, password);
+        currentUser = new User(username, password); // nyt
+        // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
-        TextUI.displayMessage("Sign Up Completed, You Can Now Log In.");
+        TextUI.displayMessage("Sign up completed, you can now log in.");
         logIn();
+    }
+
+    private boolean isValidPassword(String password){
+        //pattern for at least 1 uppercase and 2 numbers
+        String uppercaseRegex= ".*[A-Z].*";
+        String numbersRegex = ".*\\d.*";
+        Pattern uppercasePattern=Pattern.compile(uppercaseRegex);
+        Pattern numbersPattern= Pattern.compile(numbersRegex);
+        //using pattern create matches for password
+        Matcher uppercaseMatcher=uppercasePattern.matcher(password);
+        Matcher numbersMatcher= numbersPattern.matcher(password);
+        return  uppercaseMatcher.matches()&& numbersMatcher.matches();
     }
 
     public void logIn() {
